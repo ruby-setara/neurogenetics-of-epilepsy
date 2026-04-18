@@ -1,0 +1,118 @@
+
+<h2 class="sr-only">CSNK2B clinical phenotypic severity figure: 103 patients showing seizure onset age, types, status epilepticus, drug-resistant status, and ASM usage across published cases</h2>
+<style>
+.lbl{font-size:11px;font-weight:500}
+.pl{font-size:14px;font-weight:500;margin-right:4px}
+.card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 12px}
+.mv{font-size:20px;font-weight:500;line-height:1.2}
+.ms{font-size:10px;color:var(--color-text-secondary)}
+.ml{font-size:10px;color:var(--color-text-secondary);margin-bottom:1px}
+.prow{display:grid;grid-template-columns:92px 1fr 11px 11px 20px;align-items:center;min-height:15px;padding:1px 5px;gap:3px;font-size:8px;cursor:default}
+.prow:nth-child(even){background:var(--color-background-secondary)}
+.prow:hover{background:color-mix(in srgb,var(--color-background-info) 15%,transparent)}
+</style>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px">
+  <div class="card"><div class="ml">Total patients</div><div class="mv">103</div><div class="ms">published cases</div></div>
+  <div class="card"><div class="ml">Median onset age</div><div class="mv" id="medVal">—</div><div class="ms" id="iqrVal">months</div></div>
+  <div class="card"><div class="ml">Status epilepticus</div><div class="mv">5<span style="font-size:12px;font-weight:400;color:var(--color-text-secondary)"> / 103</span></div><div class="ms">4 also drug-resistant</div></div>
+  <div class="card"><div class="ml">Drug-resistant</div><div class="mv">19<span style="font-size:12px;font-weight:400;color:var(--color-text-secondary)"> / 103</span></div><div class="ms">of all reported</div></div>
+</div>
+
+<div style="display:grid;grid-template-columns:308px 1fr;gap:12px;align-items:start">
+
+<div>
+  <div style="margin-bottom:5px"><span class="pl">A</span><span class="lbl">Per-patient seizure profiles (n=88 with onset, sorted by age at first seizure)</span></div>
+  <div id="legTypes" style="display:flex;flex-wrap:wrap;gap:3px 7px;margin-bottom:5px;font-size:9px;color:var(--color-text-secondary)"></div>
+  <div style="display:grid;grid-template-columns:92px 1fr 11px 11px 20px;font-size:7.5px;color:var(--color-text-secondary);padding:0 5px;gap:3px;margin-bottom:2px">
+    <span>Onset age (mo) →</span><span>Seizure type(s)</span>
+    <span title="Status epilepticus" style="cursor:help;text-align:center">SE</span>
+    <span title="Drug-resistant epilepsy" style="cursor:help;text-align:center">R</span>
+    <span style="text-align:right;font-size:7px">#ASM</span>
+  </div>
+  <div id="matrix" style="height:430px;overflow-y:auto;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md)"></div>
+  <div style="display:flex;gap:10px;margin-top:6px;font-size:9px;color:var(--color-text-secondary);flex-wrap:wrap">
+    <span style="display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;border-radius:50%;background:#C93030;display:inline-block"></span>Status epilepticus (SE)</span>
+    <span style="display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;background:#D07A00;border-radius:1px;display:inline-block"></span>Drug-resistant (R)</span>
+    <span style="color:var(--color-text-secondary)">Hover row for variant · bar ∝ onset age (max 120 mo)</span>
+  </div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+  <div>
+    <div style="margin-bottom:4px"><span class="pl">B</span><span class="lbl">Seizure type frequency by drug-response status</span></div>
+    <div id="legB" style="display:flex;gap:12px;margin-bottom:4px;font-size:9px;color:var(--color-text-secondary)"></div>
+    <div style="position:relative;height:250px"><canvas id="chartB" role="img" aria-label="Stacked horizontal bar showing seizure type frequencies split by drug-resistant, non-resistant, and unknown response. GTC is most frequent.">GTC 52, Focal 24, Myoclonic 21, Absence 15, Febrile 14, Other 9, Atonic 8, Tonic 8.</canvas></div>
+  </div>
+  <div>
+    <div style="margin-bottom:4px"><span class="pl">C</span><span class="lbl">ASM usage frequency by drug-response status (top 10)</span></div>
+    <div id="legC" style="display:flex;gap:12px;margin-bottom:4px;font-size:9px;color:var(--color-text-secondary)"></div>
+    <div style="position:relative;height:270px"><canvas id="chartC" role="img" aria-label="Stacked horizontal bar showing antiseizure medication usage frequency split by drug-resistant and non-resistant patients. VPA and LEV most used.">VPA 25, LEV 23, LTG 8, OXC 8, TPM 7, ZNS 6, PB 6, CLB 4, PHT 3, KD 2.</canvas></div>
+  </div>
+</div>
+</div>
+
+<p style="font-size:9.5px;color:var(--color-text-secondary);line-height:1.6;margin-top:10px;padding-top:8px;border-top:0.5px solid var(--color-border-tertiary)">
+  <strong>Figure.</strong> Clinical phenotypic spectrum of <em>CSNK2B</em>-related epilepsy. <strong>(A)</strong> Each row represents one patient (n=88 with available onset age). Horizontal bar = onset age (months, max displayed 120 mo); colored squares = seizure type(s) present; red circle = status epilepticus; orange square = drug-resistant epilepsy; rightmost column = total ASMs trialed. Rows sorted ascending by onset age; hover for variant. <strong>(B)</strong> Seizure type frequency across all 103 patients stratified by drug response. <strong>(C)</strong> ASM usage frequency (top 10 by total use), stratified by patient drug-response category. <em>Abbreviations:</em> GTC, generalized tonic-clonic; SE, status epilepticus; R, drug-resistant; ASM, antiseizure medication; VPA, valproate; LEV, levetiracetam; LTG, lamotrigine; OXC, oxcarbazepine; TPM, topiramate; ZNS, zonisamide; PB, phenobarbital; CLB, clobazam; PHT, phenytoin; KD, ketogenic diet.
+</p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const DATA=[{"variant":"p.H152fs*76","onset":5,"types":["GTC"],"se":"No","refractory":"No","asms":["LEV","VPA"],"nAsms":2},{"variant":"p.His165Arg","onset":0.1,"types":["Focal"],"se":"Unknown","refractory":"Yes","asms":[],"nAsms":0},{"variant":"p.Pro179Tyrfs*49","onset":2,"types":["GTC","LGS"],"se":"Unknown","refractory":"Yes","asms":[],"nAsms":0},{"variant":"367+2T>C","onset":18,"types":["Myoclonic"],"se":"No","refractory":"Yes","asms":["CLB","LEV","LTG","VPA","ZNS"],"nAsms":5},{"variant":"L187R","onset":12,"types":["GTC","Myoclonic"],"se":"No","refractory":"Yes","asms":["CLB","LEV","TPM","VPA"],"nAsms":4},{"variant":"F207Ffs*39","onset":4,"types":["GTC"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"E5X,211","onset":5,"types":["GTC"],"se":"No","refractory":"No","asms":["LEV","OXC"],"nAsms":2},{"variant":"C137G","onset":2,"types":["GTC"],"se":"No","refractory":"No","asms":["LEV","OXC"],"nAsms":2},{"variant":"I88Ifs*46","onset":6,"types":["GTC"],"se":"No","refractory":"No","asms":["LEV"],"nAsms":1},{"variant":"C137F","onset":6,"types":["GTC"],"se":"No","refractory":"No","asms":["VPA"],"nAsms":1},{"variant":"R111P","onset":5,"types":["GTC"],"se":"No","refractory":"No","asms":["LEV","OXC","TPM"],"nAsms":3},{"variant":"R111P","onset":5,"types":["GTC"],"se":"No","refractory":"No","asms":["LEV"],"nAsms":1},{"variant":"368-2A>G","onset":3.5,"types":["GTC"],"se":"No","refractory":"No","asms":["TPM"],"nAsms":1},{"variant":"Thr37Tyrfs","onset":10,"types":["Myoclonic"],"se":"No","refractory":"No","asms":["LEV","VPA"],"nAsms":2},{"variant":"R47*","onset":11,"types":["Myoclonic","Atonic"],"se":"No","refractory":"No","asms":["CLB","LTG","OXC","PRED","TPM"],"nAsms":5},{"variant":"6p21.33 del","onset":38,"types":["Febrile"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"p.Tyr101*","onset":6,"types":["Myoclonic","Atonic"],"se":"No","refractory":"Yes","asms":["LTG","VPA","ZNS"],"nAsms":3},{"variant":"p.Tyr101*","onset":10,"types":["Myoclonic","Atonic"],"se":"No","refractory":"Yes","asms":["LTG","VPA"],"nAsms":2},{"variant":"p.Glu20*","onset":12,"types":["GTC"],"se":"No","refractory":"No","asms":["PHT"],"nAsms":1},{"variant":"p.Trp9*","onset":4,"types":["Myoclonic"],"se":"Yes","refractory":"Yes","asms":["CLN","KD","LCM","PB","PHT","RUF","TPM","VNS","VPA","ZNS"],"nAsms":10},{"variant":"73-2A>G","onset":26,"types":["GTC","Febrile","ESES"],"se":"Yes","refractory":"No","asms":[],"nAsms":0},{"variant":"p.Gln42*","onset":4,"types":["Focal","Febrile"],"se":"No","refractory":"Yes","asms":["OXC","PB"],"nAsms":2},{"variant":"p.Asp32Asn","onset":1.5,"types":["Febrile"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"p.Asn181fs","onset":10,"types":["GTC","Myoclonic","Absence"],"se":"Yes","refractory":"Yes","asms":[],"nAsms":0},{"variant":"p.Glu27_Asp28dup","onset":5,"types":["GTC","Absence"],"se":"No","refractory":"No","asms":["LEV","VPA","ZNS"],"nAsms":3},{"variant":"p.Cys137Arg","onset":6,"types":["GTC","Focal"],"se":"No","refractory":"No","asms":["VPA"],"nAsms":1},{"variant":"p.Asp32Asn","onset":24,"types":["Absence","Tonic"],"se":"No","refractory":"Yes","asms":[],"nAsms":0},{"variant":"p.Arg47*","onset":24,"types":["Atonic"],"se":"No","refractory":"No","asms":["CLB","ETX"],"nAsms":2},{"variant":"p.Met97Ile","onset":4,"types":["GTC","Focal"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"p.M132fs","onset":36,"types":["GTC"],"se":"No","refractory":"Yes","asms":[],"nAsms":0},{"variant":"p.Met1?","onset":12,"types":["Other"],"se":"No","refractory":"No","asms":["KD","LEV"],"nAsms":2},{"variant":"p.Glu61*","onset":2,"types":["GTC"],"se":"No","refractory":"No","asms":["FBM","LTG","PHT"],"nAsms":3},{"variant":"p.Arg86Cys","onset":14,"types":["Myoclonic","Absence"],"se":"No","refractory":"No","asms":["ZNS"],"nAsms":1},{"variant":"p.Phe106Val","onset":48,"types":["Febrile"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"557+1G>A","onset":2.5,"types":["GTC","Myoclonic","Absence","Tonic"],"se":"Yes","refractory":"Yes","asms":[],"nAsms":0},{"variant":"p.Asp32Asn","onset":84,"types":["Absence"],"se":"No","refractory":"No","asms":["ETX","VPA"],"nAsms":2},{"variant":"p.Cys137Phe","onset":5,"types":["GTC"],"se":"Unknown","refractory":"No","asms":["VPA"],"nAsms":1},{"variant":"p.His165Arg","onset":0.2,"types":["Myoclonic"],"se":"Unknown","refractory":"No","asms":["LEV","PB","TPM"],"nAsms":3},{"variant":"p.Leu167Serfs*60","onset":14,"types":["Febrile"],"se":"Unknown","refractory":"No","asms":[],"nAsms":0},{"variant":"Unknown","onset":4,"types":["GTC"],"se":"Unknown","refractory":"No","asms":["DAP","OXC","PB"],"nAsms":3},{"variant":"p.Met1Ile","onset":3,"types":["GTC"],"se":"Unknown","refractory":"No","asms":["LEV","PB"],"nAsms":2},{"variant":"p.Leu187Asnfs*8","onset":3,"types":["GTC"],"se":"Unknown","refractory":"No","asms":["LEV","PB","TPM"],"nAsms":3},{"variant":"p.Trp9*","onset":7,"types":["GTC","Focal"],"se":"Unknown","refractory":"No","asms":["CBZ","VPA"],"nAsms":2},{"variant":"p.His165Arg","onset":0.5,"types":["Focal","Myoclonic","Spasms"],"se":"Unknown","refractory":"Yes","asms":[],"nAsms":0},{"variant":"p.Asp32Tyr","onset":9,"types":["Atonic"],"se":"Unknown","refractory":"No","asms":[],"nAsms":0},{"variant":"p.Gln96*","onset":16,"types":["GTC","Focal"],"se":"No","refractory":"No","asms":["VPA"],"nAsms":1},{"variant":"p.Thr37Tyrfs*5","onset":20,"types":["GTC","Focal"],"se":"No","refractory":"No","asms":["LEV","VPA"],"nAsms":2},{"variant":"p.His165Arg","onset":0.2,"types":["Focal"],"se":"No","refractory":"No","asms":["LEV"],"nAsms":1},{"variant":"p.Trp9*","onset":7,"types":["GTC","Focal"],"se":"No","refractory":"No","asms":["VPA"],"nAsms":1},{"variant":"Unknown","onset":10,"types":["GTC"],"se":"No","refractory":"No","asms":["VPA"],"nAsms":1},{"variant":"p.Glu61del","onset":8,"types":["Febrile"],"se":"No","refractory":"No","asms":["VPA"],"nAsms":1},{"variant":"p.Arg111His","onset":16,"types":["GTC","Spasms"],"se":"No","refractory":"No","asms":["LEV"],"nAsms":1},{"variant":"p.Leu39Arg","onset":65,"types":["Focal","Absence"],"se":"No","refractory":"No","asms":["LTG","ZNS"],"nAsms":2},{"variant":"p.Met132LeuFs*110","onset":9,"types":["GTC","Atonic"],"se":"No","refractory":"No","asms":["VPA"],"nAsms":1},{"variant":"p.Met1?","onset":3,"types":["Other"],"se":"Unknown","refractory":"Unknown","asms":[],"nAsms":0},{"variant":"p.Phe34fs*16","onset":5,"types":["GTC"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"p.Arg111Pro","onset":13,"types":["GTC"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"p.Asp55fs*4","onset":2,"types":["Focal"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"p.V170Afs*75","onset":2,"types":["GTC","Tonic","Febrile"],"se":"Unknown","refractory":"Unknown","asms":[],"nAsms":0},{"variant":"p.Q48X","onset":3,"types":["GTC","Tonic","Febrile"],"se":"Unknown","refractory":"Unknown","asms":[],"nAsms":0},{"variant":"p.Leu98Alafs*11","onset":10,"types":["Febrile"],"se":"No","refractory":"No","asms":["VPA"],"nAsms":1},{"variant":"p.Leu98Alafs*11","onset":3,"types":["GTC","Focal"],"se":"No","refractory":"No","asms":["LEV"],"nAsms":1},{"variant":"p.Glu20*","onset":3,"types":["GTC"],"se":"No","refractory":"No","asms":["LEV","OXC"],"nAsms":2},{"variant":"p.Cys109Arg","onset":8,"types":["GTC"],"se":"No","refractory":"Yes","asms":["VPA"],"nAsms":1},{"variant":"p.Gln48*","onset":10,"types":["Myoclonic"],"se":"No","refractory":"No","asms":["LEV"],"nAsms":1},{"variant":"p.Asp155Alafs*70","onset":4,"types":["GTC"],"se":"No","refractory":"Yes","asms":["LEV","VPA"],"nAsms":2},{"variant":"p.Met166Arg","onset":4,"types":["GTC"],"se":"No","refractory":"No","asms":["LEV"],"nAsms":1},{"variant":"Unknown","onset":4,"types":["Focal"],"se":"No","refractory":"No","asms":["OXC"],"nAsms":1},{"variant":"p.Lys212Aspfs*33","onset":null,"types":["GTC","Focal","Febrile"],"se":"No","refractory":"Yes","asms":["LTG","VPA"],"nAsms":2},{"variant":"p.Gln48*","onset":17,"types":["Myoclonic"],"se":"No","refractory":"No","asms":["VPA"],"nAsms":1},{"variant":"p.Arg47*","onset":0.2,"types":["Focal","Myoclonic"],"se":"Unknown","refractory":"Unknown","asms":[],"nAsms":0},{"variant":"p.Met132Leufs*110","onset":9,"types":["Focal","Atonic"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"Unknown","onset":3,"types":["GTC","Absence"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"Unknown","onset":36,"types":["GTC"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"Unknown","onset":12,"types":["Focal","Myoclonic"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"p.Gly81*","onset":36,"types":["Absence"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"Unknown","onset":8,"types":["GTC","Focal"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"p.Gln48*","onset":24,"types":["Myoclonic","Absence"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"p.Gln48*","onset":120,"types":["GTC"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"p.Gln48*","onset":9,"types":["GTC","Absence"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"Unknown","onset":36,"types":["Focal","Tonic","Febrile"],"se":"Unknown","refractory":"Yes","asms":[],"nAsms":0},{"variant":"Unknown","onset":5,"types":["Focal","Tonic"],"se":"No","refractory":"No","asms":["VPA"],"nAsms":1},{"variant":"p.Met1?","onset":228,"types":["Febrile"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"Unknown","onset":9,"types":["GTC"],"se":"Unknown","refractory":"Yes","asms":[],"nAsms":0},{"variant":"Unknown","onset":36,"types":["Myoclonic","Absence"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"Unknown","onset":5,"types":["GTC"],"se":"Unknown","refractory":"Unknown","asms":[],"nAsms":0},{"variant":"Unknown","onset":12,"types":["GTC"],"se":"Unknown","refractory":"Unknown","asms":[],"nAsms":0},{"variant":"p.Thr90Pro","onset":46,"types":["Myoclonic","Absence"],"se":"No","refractory":"No","asms":[],"nAsms":0},{"variant":"p.Met132LeufsTer110","onset":null,"types":["Myoclonic","Febrile"],"se":"Yes","refractory":"Yes","asms":[],"nAsms":0}];
+
+const TC={GTC:'#C4422A',Focal:'#2770B0',Myoclonic:'#7B6BC9',Absence:'#0D8A5F',Febrile:'#B8870D',Atonic:'#B04578',Tonic:'#3D8A1A',Spasms:'#7A7870',ESES:'#888',LGS:'#888',Other:'#888'};
+const TYPE_ORDER=['GTC','Focal','Myoclonic','Absence','Febrile','Atonic','Tonic','Other'];
+
+const onsets=DATA.filter(d=>d.onset!==null).map(d=>d.onset).sort((a,b)=>a-b);
+const mid=Math.floor(onsets.length/2);
+const med=onsets.length%2===0?(onsets[mid-1]+onsets[mid])/2:onsets[mid];
+const q1=onsets[Math.floor(onsets.length/4)],q3=onsets[Math.floor(3*onsets.length/4)];
+document.getElementById('medVal').textContent=Math.round(med);
+document.getElementById('iqrVal').textContent='months (IQR '+Math.round(q1)+'–'+Math.round(q3)+')';
+
+const legEl=document.getElementById('legTypes');
+TYPE_ORDER.forEach(t=>{legEl.innerHTML+=`<span style="display:flex;align-items:center;gap:2px"><span style="width:8px;height:8px;border-radius:1px;background:${TC[t]};display:inline-block"></span>${t}</span>`;});
+
+const MAX_ON=120;
+const sorted=DATA.filter(d=>d.onset!==null).sort((a,b)=>a.onset-b.onset);
+document.getElementById('matrix').innerHTML=sorted.map(p=>{
+  const pct=Math.min(p.onset/MAX_ON*100,100);
+  const pc=TC[p.types[0]]||TC.Other;
+  const bar=`<div style="display:flex;align-items:center;gap:2px;min-width:0"><div style="width:58px;height:4px;background:var(--color-border-tertiary);border-radius:2px;position:relative;flex-shrink:0"><div style="position:absolute;top:0;left:0;height:4px;border-radius:2px;background:${pc};width:${pct}%"></div></div><span style="font-size:7.5px;color:var(--color-text-secondary);flex-shrink:0;min-width:18px">${p.onset<120?p.onset:'≥120'}</span></div>`;
+  const dots=p.types.slice(0,6).map(t=>`<span title="${t}" style="width:8px;height:8px;border-radius:1px;background:${TC[t]||'#888'};display:inline-block;flex-shrink:0"></span>`).join('');
+  const se=p.se==='Yes'?`<span style="width:9px;height:9px;border-radius:50%;background:#C93030;display:inline-block" title="Status epilepticus"></span>`:`<span style="width:9px;height:9px;display:inline-block"></span>`;
+  const rf=p.refractory==='Yes'?`<span style="width:9px;height:9px;background:#D07A00;border-radius:1px;display:inline-block" title="Drug-resistant"></span>`:`<span style="width:9px;height:9px;display:inline-block"></span>`;
+  const cnt=p.nAsms>0?`<span style="font-size:9px;font-weight:500;color:var(--color-text-secondary);text-align:right">${p.nAsms}</span>`:`<span style="font-size:9px;color:var(--color-border-secondary);text-align:right">—</span>`;
+  return `<div class="prow" title="${p.variant||'–'} | onset ${p.onset} mo | ${p.types.join(', ')||'—'} | ASMs: ${p.asms.join(', ')||'none'}">${bar}<div style="display:flex;gap:2px;align-items:center;overflow:hidden;min-width:0">${dots}</div>${se}${rf}<div style="text-align:right">${cnt}</div></div>`;
+}).join('');
+
+const mkLegend=(id)=>{
+  const el=document.getElementById(id);
+  [['Non-resistant','#2770B077','#2770B0'],['Drug-resistant','#C4422ABB','#C4422A'],['Unknown response','#88787044','#888']].forEach(([l,bg,br])=>{
+    el.innerHTML+=`<span style="display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:${bg};border:0.5px solid ${br};display:inline-block"></span>${l}</span>`;
+  });
+};
+mkLegend('legB');mkLegend('legC');
+
+const typeCts={},typeRef={},typeUnk={};
+TYPE_ORDER.forEach(t=>{typeCts[t]=0;typeRef[t]=0;typeUnk[t]=0;});
+DATA.forEach(p=>{p.types.forEach(t=>{const k=TYPE_ORDER.includes(t)?t:'Other';typeCts[k]++;if(p.refractory==='Yes')typeRef[k]++;else if(p.refractory==='Unknown')typeUnk[k]++;});});
+const typLabels=TYPE_ORDER.filter(t=>typeCts[t]>0);
+const mkChart=(id,labels,notR,refs,unks,title)=>{
+  new Chart(document.getElementById(id),{type:'bar',data:{labels,datasets:[
+    {label:'Non-resistant',data:notR,backgroundColor:'#2770B066',borderColor:'#2770B099',borderWidth:0.5},
+    {label:'Drug-resistant',data:refs,backgroundColor:'#C4422AB0',borderColor:'#C4422ACC',borderWidth:0.5},
+    {label:'Unknown',data:unks,backgroundColor:'#7A787044',borderColor:'#77777777',borderWidth:0.5}
+  ]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{
+    x:{stacked:true,grid:{color:'rgba(128,128,128,0.1)'},border:{display:false},ticks:{font:{size:10}},title:{display:true,text:'No. patients',font:{size:10},color:'#888'}},
+    y:{stacked:true,grid:{display:false},border:{display:false},ticks:{font:{size:10}}}
+  },plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.x}`},bodyFont:{size:10},titleFont:{size:10}}}}});
+};
+mkChart('chartB',typLabels,typLabels.map(t=>typeCts[t]-typeRef[t]-typeUnk[t]),typLabels.map(t=>typeRef[t]),typLabels.map(t=>typeUnk[t]));
+
+const asmCts={},asmRef={},asmUnk={};
+DATA.forEach(p=>{p.asms.forEach(a=>{asmCts[a]=(asmCts[a]||0)+1;if(p.refractory==='Yes')asmRef[a]=(asmRef[a]||0)+1;else if(p.refractory==='Unknown')asmUnk[a]=(asmUnk[a]||0)+1;});});
+const top10=Object.entries(asmCts).sort((a,b)=>b[1]-a[1]).slice(0,10);
+const asmLabels=top10.map(([a])=>a);
+mkChart('chartC',asmLabels,asmLabels.map(a=>asmCts[a]-(asmRef[a]||0)-(asmUnk[a]||0)),asmLabels.map(a=>asmRef[a]||0),asmLabels.map(a=>asmUnk[a]||0));
+</script>
