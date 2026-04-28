@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CSNK2B Variant Map v6</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue',Arial,sans-serif;background:#ececec;padding:18px 20px 36px}
+h1{display:none}
+.chart-wrap{background:#fff;border-radius:10px;box-shadow:0 2px 14px rgba(0,0,0,.12);
+  padding:16px 8px 12px;overflow-x:auto}
+#svg-container{min-width:1500px}
+.stats-row{display:flex;justify-content:center;gap:26px;margin:12px 0 16px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-n{font-size:19px;font-weight:700;color:#1d4ed8;line-height:1.2}
+.stat-l{font-size:8.5px;text-transform:uppercase;letter-spacing:.09em;color:#aaa}
+.legend-wrap{display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;margin-top:12px;
+  background:#fff;border-radius:8px;box-shadow:0 1px 7px rgba(0,0,0,.09);padding:13px 18px}
+.lg{display:flex;flex-direction:column;gap:4px;min-width:138px;max-width:260px}
+.lgh{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;
+  color:#888;margin-bottom:2px}
+.lgi{display:flex;align-items:center;gap:7px;font-size:10px;color:#333;line-height:1.3}
+.lsw{width:14px;height:14px;flex-shrink:0;border:1px solid #e0e0e0}
+.lsw-stripe{width:18px;height:14px;flex-shrink:0;border:1px solid #d0d0d0;border-radius:2px}
+.note{text-align:center;font-size:9.5px;color:#bbb;margin-top:7px;font-style:italic}
+
+#tooltip{position:fixed;pointer-events:none;background:rgba(12,12,22,.96);color:#e8e8e8;
+  border-radius:9px;padding:12px 15px;font-size:11px;max-width:380px;z-index:9999;
+  display:none;line-height:1.55;box-shadow:0 5px 24px rgba(0,0,0,.5)}
+#tooltip .tt-hdr{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px}
+#tooltip .tt-badge{display:inline-block;padding:2px 8px;border-radius:4px;
+  font-size:10px;font-weight:700;color:#fff;margin-bottom:6px}
+#tooltip .tt-sex{display:flex;gap:14px;font-size:11.5px;margin:5px 0 4px;flex-wrap:wrap}
+#tooltip .tt-sex .m{color:#93c5fd;font-weight:700}
+#tooltip .tt-sex .f{color:#f9a8d4;font-weight:700}
+#tooltip .tt-sex .u{color:#d1d5db;font-weight:700}
+#tooltip .tt-row{font-size:10.5px;color:#aaa;margin-bottom:2px;word-break:break-word}
+#tooltip .tt-row b{color:#ddd}
+#tooltip .tt-pheno{margin-top:6px;font-size:10px;color:#bbb;
+  border-top:1px solid rgba(255,255,255,.1);padding-top:5px;
+  font-style:italic;max-height:130px;overflow-y:auto}
+#tooltip .tt-cv a{color:#60a5fa;font-size:10px;text-decoration:none}
+#tooltip .tt-cv a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="stats-row" id="statsRow"></div>
+<div class="chart-wrap"><div id="svg-container">
+<svg viewBox="0 0 1620 900" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="width:100%;max-width:1620px;display:block;font-family:Arial,sans-serif;">
+<rect width="1620" height="900" fill="#f9f9f9" rx="8"/>
+<defs>
+<pattern id="stripe_Auto-P" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(0)"><rect width="6" height="6" fill="#EAB308" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#EAB308" stroke-width="2.4" stroke-opacity="0.85"/></pattern>
+<pattern id="stripe_KEN" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(30)"><rect width="6" height="6" fill="#F97316" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#F97316" stroke-width="2.4" stroke-opacity="0.85"/></pattern>
+<pattern id="stripe_Acidic" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(60)"><rect width="6" height="6" fill="#F59E0B" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#F59E0B" stroke-width="2.4" stroke-opacity="0.85"/></pattern>
+<pattern id="stripe_TopoII" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(90)"><rect width="6" height="6" fill="#10B981" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#10B981" stroke-width="2.4" stroke-opacity="0.85"/></pattern>
+<pattern id="stripe_Zn" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(120)"><rect width="6" height="6" fill="#3B82F6" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#3B82F6" stroke-width="2.4" stroke-opacity="0.85"/></pattern>
+<pattern id="stripe_Dimer" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(150)"><rect width="6" height="6" fill="#8B5CF6" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#8B5CF6" stroke-width="2.4" stroke-opacity="0.85"/></pattern>
+<pattern id="stripe_CK2a" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="6" height="6" fill="#EC4899" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#EC4899" stroke-width="2.4" stroke-opacity="0.85"/></pattern>
+</defs>
+<text x="810" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#111">CSNK2B Variant Map — Bidirectional · Shape = Variant Class · Pie = Sex</text>
+<text x="810" y="46" text-anchor="middle" font-size="10" fill="#888" font-style="italic">All shapes equal size · Stem length = no. of cases · Domain stripes overlap to show shared regions · Hover to spotlight</text>
+<line x1="85" y1="422" x2="1570" y2="422" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<line x1="85" y1="538" x2="1570" y2="538" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<text x="1578" y="425" font-size="8.5" fill="#bbb">1</text>
+<text x="1578" y="541" font-size="8.5" fill="#bbb">1</text>
+<line x1="85" y1="404" x2="1570" y2="404" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<line x1="85" y1="556" x2="1570" y2="556" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<text x="1578" y="407" font-size="8.5" fill="#bbb">2</text>
+<text x="1578" y="559" font-size="8.5" fill="#bbb">2</text>
+<line x1="85" y1="386" x2="1570" y2="386" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<line x1="85" y1="574" x2="1570" y2="574" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<text x="1578" y="389" font-size="8.5" fill="#bbb">3</text>
+<text x="1578" y="577" font-size="8.5" fill="#bbb">3</text>
+<line x1="85" y1="368" x2="1570" y2="368" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<line x1="85" y1="592" x2="1570" y2="592" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<text x="1578" y="371" font-size="8.5" fill="#bbb">4</text>
+<text x="1578" y="595" font-size="8.5" fill="#bbb">4</text>
+<line x1="85" y1="350" x2="1570" y2="350" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<line x1="85" y1="610" x2="1570" y2="610" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<text x="1578" y="353" font-size="8.5" fill="#bbb">5</text>
+<text x="1578" y="613" font-size="8.5" fill="#bbb">5</text>
+<line x1="85" y1="332" x2="1570" y2="332" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<line x1="85" y1="628" x2="1570" y2="628" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<text x="1578" y="335" font-size="8.5" fill="#bbb">6</text>
+<text x="1578" y="631" font-size="8.5" fill="#bbb">6</text>
+<line x1="85" y1="314" x2="1570" y2="314" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<line x1="85" y1="646" x2="1570" y2="646" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<text x="1578" y="317" font-size="8.5" fill="#bbb">7</text>
+<text x="1578" y="649" font-size="8.5" fill="#bbb">7</text>
+<line x1="85" y1="296" x2="1570" y2="296" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<line x1="85" y1="664" x2="1570" y2="664" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<text x="1578" y="299" font-size="8.5" fill="#bbb">8</text>
+<text x="1578" y="667" font-size="8.5" fill="#bbb">8</text>
+<line x1="85" y1="278" x2="1570" y2="278" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<line x1="85" y1="682" x2="1570" y2="682" stroke="#e7e7e7" stroke-width="0.7" stroke-dasharray="3,5"/>
+<text x="1578" y="281" font-size="8.5" fill="#bbb">9</text>
+<text x="1578" y="685" font-size="8.5" fill="#bbb">9</text>
+<text x="1600" y="480" text-anchor="middle" font-size="9" fill="#aaa" font-style="italic" transform="rotate(90,1600,480)">cases</text>
+<text x="81" y="443" text-anchor="end" font-size="8.5" fill="#1a56db" font-weight="700">↑ Missense</text>
+<text x="81" y="454" text-anchor="end" font-size="8.5" fill="#0694a2" font-weight="700">↑ In-frame</text>
+<text x="81" y="511" text-anchor="end" font-size="8.5" fill="#C81E1E" font-weight="700">↓ Nonsense</text>
+<text x="81" y="522" text-anchor="end" font-size="8.5" fill="#D03801" font-weight="700">↓ Frameshift</text>
+<text x="81" y="533" text-anchor="end" font-size="8.5" fill="#6C2BD9" font-weight="700">↓ Splicing</text>
+<g id="lollipops">
+<g class="lp" data-key="1_upper" style="opacity:1">
+  <line x1="85.0" y1="460" x2="85.0" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="85.0" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="85.00" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="85.00" cy="422.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <circle cx="85.00" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="1_lower" style="opacity:1">
+  <line x1="85.0" y1="500" x2="85.0" y2="610.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="85.0" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="85.00,603.50 90.63,613.25 79.37,613.25" fill="#C81E1E"/>
+  <path d="M 85.00 610.00 L 85.00 604.30 A 5.70 5.70 0 1 1 81.65 614.61 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 85.00 610.00 L 81.65 614.61 A 5.70 5.70 0 0 1 79.58 608.24 Z" fill="#DB2777" opacity="0.92"/>
+  <path d="M 85.00 610.00 L 79.58 608.24 A 5.70 5.70 0 0 1 85.00 604.30 Z" fill="#9CA3AF" opacity="0.92"/>
+  <polygon points="85.00,603.50 90.63,613.25 79.37,613.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="4_lower" style="opacity:1">
+  <line x1="105.8" y1="500" x2="105.8" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="105.8" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="105.82,531.50 111.45,541.25 100.19,541.25" fill="#C81E1E"/>
+  <circle cx="105.82" cy="538.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <polygon points="105.82,531.50 111.45,541.25 100.19,541.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="5_lower" style="opacity:1">
+  <line x1="112.8" y1="500" x2="112.8" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="112.8" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="112.76,531.50 118.39,541.25 107.13,541.25" fill="#C81E1E"/>
+  <circle cx="112.76" cy="538.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <polygon points="112.76,531.50 118.39,541.25 107.13,541.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="9_lower" style="opacity:1">
+  <line x1="140.5" y1="500" x2="140.5" y2="592.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="140.5" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="140.51,585.50 146.14,595.25 134.88,595.25" fill="#C81E1E"/>
+  <path d="M 140.51 592.00 L 140.51 586.30 A 5.70 5.70 0 1 1 134.81 592.00 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 140.51 592.00 L 134.81 592.00 A 5.70 5.70 0 0 1 140.51 586.30 Z" fill="#9CA3AF" opacity="0.92"/>
+  <polygon points="140.51,585.50 146.14,595.25 134.88,595.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="12_lower" style="opacity:1">
+  <line x1="161.3" y1="500" x2="161.3" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="161.3" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="161.33,531.50 166.96,541.25 155.70,541.25" fill="#C81E1E"/>
+  <circle cx="161.33" cy="538.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <polygon points="161.33,531.50 166.96,541.25 155.70,541.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="20_lower" style="opacity:1">
+  <line x1="216.8" y1="500" x2="216.8" y2="556.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="216.8" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="216.85,549.50 222.47,559.25 211.22,559.25" fill="#C81E1E"/>
+  <circle cx="216.85" cy="556.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <polygon points="216.85,549.50 222.47,559.25 211.22,559.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="24_lower" style="opacity:1">
+  <line x1="244.6" y1="500" x2="244.6" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="244.6" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="244.60,531.50 250.23,541.25 238.97,541.25" fill="#C81E1E"/>
+  <circle cx="244.60" cy="538.00" r="5.70" fill="#9CA3AF" opacity="0.92"/>
+  <polygon points="244.60,531.50 250.23,541.25 238.97,541.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="25_upper" style="opacity:1">
+  <line x1="251.5" y1="460" x2="251.5" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="251.5" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="251.54" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="251.54" cy="422.00" r="5.70" fill="#9CA3AF" opacity="0.92"/>
+  <circle cx="251.54" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="25_lower" style="opacity:1">
+  <line x1="251.5" y1="500" x2="251.5" y2="574.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="251.5" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="251.54,567.50 258.04,574.00 251.54,580.50 245.04,574.00" fill="#6C2BD9"/>
+  <path d="M 251.54 574.00 L 251.54 568.30 A 5.70 5.70 0 0 1 256.48 576.85 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 251.54 574.00 L 256.48 576.85 A 5.70 5.70 0 0 1 246.61 576.85 Z" fill="#DB2777" opacity="0.92"/>
+  <path d="M 251.54 574.00 L 246.61 576.85 A 5.70 5.70 0 0 1 251.54 568.30 Z" fill="#9CA3AF" opacity="0.92"/>
+  <polygon points="251.54,567.50 258.04,574.00 251.54,580.50 245.04,574.00" fill="none" stroke="#6C2BD9" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="27_upper" style="opacity:1">
+  <line x1="265.4" y1="460" x2="265.4" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="265.4" cy="460" r="1.8" fill="#bbb"/>
+  <polygon points="265.42,415.50 271.05,418.75 271.05,425.25 265.42,428.50 259.79,425.25 259.79,418.75" fill="#0694a2"/>
+  <circle cx="265.42" cy="422.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <polygon points="265.42,415.50 271.05,418.75 271.05,425.25 265.42,428.50 259.79,425.25 259.79,418.75" fill="none" stroke="#0694a2" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="32_upper" style="opacity:1">
+  <line x1="300.1" y1="460" x2="300.1" y2="278.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="300.1" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="300.12" cy="278.00" r="6.5" fill="#1a56db"/>
+  <path d="M 300.12 278.00 L 300.12 272.30 A 5.70 5.70 0 0 1 302.07 283.36 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 300.12 278.00 L 302.07 283.36 A 5.70 5.70 0 0 1 294.50 277.01 Z" fill="#DB2777" opacity="0.92"/>
+  <path d="M 300.12 278.00 L 294.50 277.01 A 5.70 5.70 0 0 1 300.12 272.30 Z" fill="#9CA3AF" opacity="0.92"/>
+  <circle cx="300.12" cy="278.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="34_upper" style="opacity:1">
+  <line x1="314.0" y1="460" x2="314.0" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="314.0" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="314.00" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="314.00" cy="422.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <circle cx="314.00" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="34_lower" style="opacity:1">
+  <line x1="314.0" y1="500" x2="314.0" y2="556.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="314.0" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="305.85" y="547.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <path d="M 314.00 556.00 L 314.00 550.30 A 5.70 5.70 0 0 1 314.00 561.70 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 314.00 556.00 L 314.00 561.70 A 5.70 5.70 0 0 1 314.00 550.30 Z" fill="#9CA3AF" opacity="0.92"/>
+  <rect x="305.85" y="547.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="35_upper" style="opacity:1">
+  <line x1="320.9" y1="460" x2="320.9" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="320.9" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="320.93" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="320.93" cy="422.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <circle cx="320.93" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="36_upper" style="opacity:1">
+  <line x1="327.9" y1="460" x2="327.9" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="327.9" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="327.87" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="327.87" cy="422.00" r="5.70" fill="#9CA3AF" opacity="0.92"/>
+  <circle cx="327.87" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="37_lower" style="opacity:1">
+  <line x1="334.8" y1="500" x2="334.8" y2="556.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="334.8" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="326.67" y="547.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="334.81" cy="556.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <rect x="326.67" y="547.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="39_upper" style="opacity:1">
+  <line x1="348.7" y1="460" x2="348.7" y2="404.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="348.7" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="348.69" cy="404.00" r="6.5" fill="#1a56db"/>
+  <circle cx="348.69" cy="404.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <circle cx="348.69" cy="404.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="42_lower" style="opacity:1">
+  <line x1="369.5" y1="500" x2="369.5" y2="556.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="369.5" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="369.51,549.50 375.14,559.25 363.88,559.25" fill="#C81E1E"/>
+  <path d="M 369.51 556.00 L 369.51 550.30 A 5.70 5.70 0 0 1 369.51 561.70 Z" fill="#DB2777" opacity="0.92"/>
+  <path d="M 369.51 556.00 L 369.51 561.70 A 5.70 5.70 0 0 1 369.51 550.30 Z" fill="#9CA3AF" opacity="0.92"/>
+  <polygon points="369.51,549.50 375.14,559.25 363.88,559.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="47_lower" style="opacity:1">
+  <line x1="404.2" y1="500" x2="404.2" y2="610.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="404.2" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="404.21,603.50 409.83,613.25 398.58,613.25" fill="#C81E1E"/>
+  <path d="M 404.21 610.00 L 404.21 604.30 A 5.70 5.70 0 0 1 407.56 614.61 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 404.21 610.00 L 407.56 614.61 A 5.70 5.70 0 0 1 400.86 614.61 Z" fill="#DB2777" opacity="0.92"/>
+  <path d="M 404.21 610.00 L 400.86 614.61 A 5.70 5.70 0 0 1 404.21 604.30 Z" fill="#9CA3AF" opacity="0.92"/>
+  <polygon points="404.21,603.50 409.83,613.25 398.58,613.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="48_lower" style="opacity:1">
+  <line x1="411.1" y1="500" x2="411.1" y2="628.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="411.1" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="411.14,621.50 416.77,631.25 405.52,631.25" fill="#C81E1E"/>
+  <path d="M 411.14 628.00 L 411.14 622.30 A 5.70 5.70 0 0 1 416.08 625.15 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 411.14 628.00 L 416.08 625.15 A 5.70 5.70 0 1 1 411.14 622.30 Z" fill="#DB2777" opacity="0.92"/>
+  <polygon points="411.14,621.50 416.77,631.25 405.52,631.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="55_lower" style="opacity:1">
+  <line x1="459.7" y1="500" x2="459.7" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="459.7" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="451.57" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="459.72" cy="538.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <rect x="451.57" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="59_lower" style="opacity:1">
+  <line x1="487.5" y1="500" x2="487.5" y2="628.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="487.5" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="487.48,621.50 493.98,628.00 487.48,634.50 480.98,628.00" fill="#6C2BD9"/>
+  <path d="M 487.48 628.00 L 487.48 622.30 A 5.70 5.70 0 0 1 487.48 633.70 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 487.48 628.00 L 487.48 633.70 A 5.70 5.70 0 0 1 487.48 622.30 Z" fill="#DB2777" opacity="0.92"/>
+  <polygon points="487.48,621.50 493.98,628.00 487.48,634.50 480.98,628.00" fill="none" stroke="#6C2BD9" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="61_upper" style="opacity:1">
+  <line x1="501.4" y1="460" x2="501.4" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="501.4" cy="460" r="1.8" fill="#bbb"/>
+  <polygon points="501.36,415.50 506.98,418.75 506.98,425.25 501.36,428.50 495.73,425.25 495.73,418.75" fill="#0694a2"/>
+  <circle cx="501.36" cy="422.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <polygon points="501.36,415.50 506.98,418.75 506.98,425.25 501.36,428.50 495.73,425.25 495.73,418.75" fill="none" stroke="#0694a2" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="61_lower" style="opacity:1">
+  <line x1="501.4" y1="500" x2="501.4" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="501.4" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="501.36,531.50 506.98,541.25 495.73,541.25" fill="#C81E1E"/>
+  <circle cx="501.36" cy="538.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <polygon points="501.36,531.50 506.98,541.25 495.73,541.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="67_lower" style="opacity:1">
+  <line x1="543.0" y1="500" x2="543.0" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="543.0" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="534.84" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="542.99" cy="538.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <rect x="534.84" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="77_upper" style="opacity:1">
+  <line x1="612.4" y1="460" x2="612.4" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="612.4" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="612.38" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="612.38" cy="422.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <circle cx="612.38" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="81_lower" style="opacity:1">
+  <line x1="640.1" y1="500" x2="640.1" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="640.1" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="640.14,531.50 645.77,541.25 634.51,541.25" fill="#C81E1E"/>
+  <circle cx="640.14" cy="538.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <polygon points="640.14,531.50 645.77,541.25 634.51,541.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="86_upper" style="opacity:1">
+  <line x1="674.8" y1="460" x2="674.8" y2="404.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="674.8" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="674.84" cy="404.00" r="6.5" fill="#1a56db"/>
+  <path d="M 674.84 404.00 L 674.84 398.30 A 5.70 5.70 0 0 1 674.84 409.70 Z" fill="#DB2777" opacity="0.92"/>
+  <path d="M 674.84 404.00 L 674.84 409.70 A 5.70 5.70 0 0 1 674.84 398.30 Z" fill="#9CA3AF" opacity="0.92"/>
+  <circle cx="674.84" cy="404.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="87_lower" style="opacity:1">
+  <line x1="681.8" y1="500" x2="681.8" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="681.8" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="681.78,531.50 687.40,541.25 676.15,541.25" fill="#C81E1E"/>
+  <circle cx="681.78" cy="538.00" r="5.70" fill="#9CA3AF" opacity="0.92"/>
+  <polygon points="681.78,531.50 687.40,541.25 676.15,541.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="88_lower" style="opacity:1">
+  <line x1="688.7" y1="500" x2="688.7" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="688.7" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="680.57" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="688.71" cy="538.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <rect x="680.57" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="90_upper" style="opacity:1">
+  <line x1="702.6" y1="460" x2="702.6" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="702.6" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="702.59" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="702.59" cy="422.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <circle cx="702.59" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="96_lower" style="opacity:1">
+  <line x1="744.2" y1="500" x2="744.2" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="744.2" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="744.23,531.50 749.86,541.25 738.60,541.25" fill="#C81E1E"/>
+  <circle cx="744.23" cy="538.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <polygon points="744.23,531.50 749.86,541.25 738.60,541.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="97_upper" style="opacity:1">
+  <line x1="751.2" y1="460" x2="751.2" y2="404.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="751.2" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="751.17" cy="404.00" r="6.5" fill="#1a56db"/>
+  <path d="M 751.17 404.00 L 751.17 398.30 A 5.70 5.70 0 0 1 751.17 409.70 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 751.17 404.00 L 751.17 409.70 A 5.70 5.70 0 0 1 751.17 398.30 Z" fill="#9CA3AF" opacity="0.92"/>
+  <circle cx="751.17" cy="404.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="97_lower" style="opacity:1">
+  <line x1="751.2" y1="500" x2="751.2" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="751.2" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="751.17,531.50 757.67,538.00 751.17,544.50 744.67,538.00" fill="#6C2BD9"/>
+  <circle cx="751.17" cy="538.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <polygon points="751.17,531.50 757.67,538.00 751.17,544.50 744.67,538.00" fill="none" stroke="#6C2BD9" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="98_lower" style="opacity:1">
+  <line x1="758.1" y1="500" x2="758.1" y2="628.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="758.1" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="758.11,621.50 764.61,628.00 758.11,634.50 751.61,628.00" fill="#6C2BD9"/>
+  <path d="M 758.11 628.00 L 758.11 622.30 A 5.70 5.70 0 0 1 763.04 625.15 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 758.11 628.00 L 763.04 625.15 A 5.70 5.70 0 1 1 753.17 625.15 Z" fill="#DB2777" opacity="0.92"/>
+  <path d="M 758.11 628.00 L 753.17 625.15 A 5.70 5.70 0 0 1 758.11 622.30 Z" fill="#9CA3AF" opacity="0.92"/>
+  <polygon points="758.11,621.50 764.61,628.00 758.11,634.50 751.61,628.00" fill="none" stroke="#6C2BD9" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="101_upper" style="opacity:1">
+  <line x1="778.9" y1="460" x2="778.9" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="778.9" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="778.93" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="778.93" cy="422.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <circle cx="778.93" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="101_lower" style="opacity:1">
+  <line x1="778.9" y1="500" x2="778.9" y2="574.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="778.9" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="778.93,567.50 784.55,577.25 773.30,577.25" fill="#C81E1E"/>
+  <path d="M 778.93 574.00 L 778.93 568.30 A 5.70 5.70 0 1 1 773.99 576.85 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 778.93 574.00 L 773.99 576.85 A 5.70 5.70 0 0 1 778.93 568.30 Z" fill="#9CA3AF" opacity="0.92"/>
+  <polygon points="778.93,567.50 784.55,577.25 773.30,577.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="106_upper" style="opacity:1">
+  <line x1="813.6" y1="460" x2="813.6" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="813.6" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="813.62" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="813.62" cy="422.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <circle cx="813.62" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="109_upper" style="opacity:1">
+  <line x1="834.4" y1="460" x2="834.4" y2="404.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="834.4" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="834.44" cy="404.00" r="6.5" fill="#1a56db"/>
+  <path d="M 834.44 404.00 L 834.44 398.30 A 5.70 5.70 0 0 1 834.44 409.70 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 834.44 404.00 L 834.44 409.70 A 5.70 5.70 0 0 1 834.44 398.30 Z" fill="#DB2777" opacity="0.92"/>
+  <circle cx="834.44" cy="404.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="111_upper" style="opacity:1">
+  <line x1="848.3" y1="460" x2="848.3" y2="332.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="848.3" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="848.32" cy="332.00" r="6.5" fill="#1a56db"/>
+  <path d="M 848.32 332.00 L 848.32 326.30 A 5.70 5.70 0 1 1 843.38 334.85 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 848.32 332.00 L 843.38 334.85 A 5.70 5.70 0 0 1 848.32 326.30 Z" fill="#DB2777" opacity="0.92"/>
+  <circle cx="848.32" cy="332.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="114_lower" style="opacity:1">
+  <line x1="869.1" y1="500" x2="869.1" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="869.1" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="869.14,531.50 874.76,541.25 863.51,541.25" fill="#C81E1E"/>
+  <circle cx="869.14" cy="538.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <polygon points="869.14,531.50 874.76,541.25 863.51,541.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="123_upper" style="opacity:1">
+  <line x1="931.6" y1="460" x2="931.6" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="931.6" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="931.59" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="931.59" cy="422.00" r="5.70" fill="#9CA3AF" opacity="0.92"/>
+  <circle cx="931.59" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="123_lower" style="opacity:1">
+  <line x1="931.6" y1="500" x2="931.6" y2="610.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="931.6" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="931.59,603.50 938.09,610.00 931.59,616.50 925.09,610.00" fill="#6C2BD9"/>
+  <path d="M 931.59 610.00 L 931.59 604.30 A 5.70 5.70 0 1 1 928.24 614.61 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 931.59 610.00 L 928.24 614.61 A 5.70 5.70 0 0 1 931.59 604.30 Z" fill="#DB2777" opacity="0.92"/>
+  <polygon points="931.59,603.50 938.09,610.00 931.59,616.50 925.09,610.00" fill="none" stroke="#6C2BD9" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="124_lower" style="opacity:1">
+  <line x1="938.5" y1="500" x2="938.5" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="938.5" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="938.53,531.50 945.03,538.00 938.53,544.50 932.03,538.00" fill="#6C2BD9"/>
+  <circle cx="938.53" cy="538.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <polygon points="938.53,531.50 945.03,538.00 938.53,544.50 932.03,538.00" fill="none" stroke="#6C2BD9" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="125_lower" style="opacity:1">
+  <line x1="945.5" y1="500" x2="945.5" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="945.5" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="945.47,531.50 951.10,541.25 939.84,541.25" fill="#C81E1E"/>
+  <circle cx="945.47" cy="538.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <polygon points="945.47,531.50 951.10,541.25 939.84,541.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="132_lower" style="opacity:1">
+  <line x1="994.0" y1="500" x2="994.0" y2="592.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="994.0" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="985.90" y="583.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <path d="M 994.04 592.00 L 994.04 586.30 A 5.70 5.70 0 0 1 999.74 592.00 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 994.04 592.00 L 999.74 592.00 A 5.70 5.70 0 1 1 994.04 586.30 Z" fill="#DB2777" opacity="0.92"/>
+  <rect x="985.90" y="583.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="137_upper" style="opacity:1">
+  <line x1="1028.7" y1="460" x2="1028.7" y2="368.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1028.7" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="1028.74" cy="368.00" r="6.5" fill="#1a56db"/>
+  <path d="M 1028.74 368.00 L 1028.74 362.30 A 5.70 5.70 0 0 1 1034.44 368.00 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 1028.74 368.00 L 1034.44 368.00 A 5.70 5.70 0 1 1 1028.74 362.30 Z" fill="#DB2777" opacity="0.92"/>
+  <circle cx="1028.74" cy="368.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="149_lower" style="opacity:1">
+  <line x1="1112.0" y1="500" x2="1112.0" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1112.0" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="1112.01,531.50 1117.64,541.25 1106.38,541.25" fill="#C81E1E"/>
+  <circle cx="1112.01" cy="538.00" r="5.70" fill="#9CA3AF" opacity="0.92"/>
+  <polygon points="1112.01,531.50 1117.64,541.25 1106.38,541.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="152_lower" style="opacity:1">
+  <line x1="1132.8" y1="500" x2="1132.8" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1132.8" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="1124.68" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="1132.83" cy="538.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <rect x="1124.68" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="155_upper" style="opacity:1">
+  <line x1="1153.6" y1="460" x2="1153.6" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1153.6" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="1153.64" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="1153.64" cy="422.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <circle cx="1153.64" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="155_lower" style="opacity:1">
+  <line x1="1153.6" y1="500" x2="1153.6" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1153.6" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="1145.50" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="1153.64" cy="538.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <rect x="1145.50" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="158_lower" style="opacity:1">
+  <line x1="1174.5" y1="500" x2="1174.5" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1174.5" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="1174.46,531.50 1180.09,541.25 1168.83,541.25" fill="#C81E1E"/>
+  <circle cx="1174.46" cy="538.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <polygon points="1174.46,531.50 1180.09,541.25 1168.83,541.25" fill="none" stroke="#C81E1E" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="161_lower" style="opacity:1">
+  <line x1="1195.3" y1="500" x2="1195.3" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1195.3" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="1187.13" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="1195.28" cy="538.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <rect x="1187.13" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="162_upper" style="opacity:1">
+  <line x1="1202.2" y1="460" x2="1202.2" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1202.2" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="1202.22" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="1202.22" cy="422.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <circle cx="1202.22" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="165_upper" style="opacity:1">
+  <line x1="1223.0" y1="460" x2="1223.0" y2="332.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1223.0" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="1223.04" cy="332.00" r="6.5" fill="#1a56db"/>
+  <path d="M 1223.04 332.00 L 1223.04 326.30 A 5.70 5.70 0 0 1 1223.04 337.70 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 1223.04 332.00 L 1223.04 337.70 A 5.70 5.70 0 0 1 1218.10 334.85 Z" fill="#DB2777" opacity="0.92"/>
+  <path d="M 1223.04 332.00 L 1218.10 334.85 A 5.70 5.70 0 0 1 1223.04 326.30 Z" fill="#9CA3AF" opacity="0.92"/>
+  <circle cx="1223.04" cy="332.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="166_upper" style="opacity:1">
+  <line x1="1230.0" y1="460" x2="1230.0" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1230.0" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="1229.98" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="1229.98" cy="422.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <circle cx="1229.98" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="166_lower" style="opacity:1">
+  <line x1="1230.0" y1="500" x2="1230.0" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1230.0" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="1221.83" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="1229.98" cy="538.00" r="5.70" fill="#9CA3AF" opacity="0.92"/>
+  <rect x="1221.83" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="167_lower" style="opacity:1">
+  <line x1="1236.9" y1="500" x2="1236.9" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1236.9" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="1228.77" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="1236.92" cy="538.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <rect x="1228.77" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="170_lower" style="opacity:1">
+  <line x1="1257.7" y1="500" x2="1257.7" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1257.7" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="1249.59" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="1257.73" cy="538.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <rect x="1249.59" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="173_lower" style="opacity:1">
+  <line x1="1278.6" y1="500" x2="1278.6" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1278.6" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="1270.40" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="1278.55" cy="538.00" r="5.70" fill="#9CA3AF" opacity="0.92"/>
+  <rect x="1270.40" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="179_lower" style="opacity:1">
+  <line x1="1320.2" y1="500" x2="1320.2" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1320.2" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="1312.04" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="1320.19" cy="538.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <rect x="1312.04" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="181_lower" style="opacity:1">
+  <line x1="1334.1" y1="500" x2="1334.1" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1334.1" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="1325.92" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="1334.07" cy="538.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <rect x="1325.92" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="186_upper" style="opacity:1">
+  <line x1="1368.8" y1="460" x2="1368.8" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1368.8" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="1368.76" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="1368.76" cy="422.00" r="5.70" fill="#9CA3AF" opacity="0.92"/>
+  <circle cx="1368.76" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="186_lower" style="opacity:1">
+  <line x1="1368.8" y1="500" x2="1368.8" y2="574.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1368.8" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="1368.76,567.50 1375.26,574.00 1368.76,580.50 1362.26,574.00" fill="#6C2BD9"/>
+  <path d="M 1368.76 574.00 L 1368.76 568.30 A 5.70 5.70 0 1 1 1363.83 576.85 Z" fill="#1D4ED8" opacity="0.92"/>
+  <path d="M 1368.76 574.00 L 1363.83 576.85 A 5.70 5.70 0 0 1 1368.76 568.30 Z" fill="#DB2777" opacity="0.92"/>
+  <polygon points="1368.76,567.50 1375.26,574.00 1368.76,580.50 1362.26,574.00" fill="none" stroke="#6C2BD9" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="187_upper" style="opacity:1">
+  <line x1="1375.7" y1="460" x2="1375.7" y2="422.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1375.7" cy="460" r="1.8" fill="#bbb"/>
+  <circle cx="1375.70" cy="422.00" r="6.5" fill="#1a56db"/>
+  <circle cx="1375.70" cy="422.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <circle cx="1375.70" cy="422.00" r="6.5" fill="none" stroke="#1a56db" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="187_lower" style="opacity:1">
+  <line x1="1375.7" y1="500" x2="1375.7" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1375.7" cy="500" r="1.8" fill="#bbb"/>
+  <polygon points="1375.70,531.50 1382.20,538.00 1375.70,544.50 1369.20,538.00" fill="#6C2BD9"/>
+  <circle cx="1375.70" cy="538.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <polygon points="1375.70,531.50 1382.20,538.00 1375.70,544.50 1369.20,538.00" fill="none" stroke="#6C2BD9" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="191_lower" style="opacity:1">
+  <line x1="1403.5" y1="500" x2="1403.5" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1403.5" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="1395.31" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="1403.46" cy="538.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <rect x="1395.31" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="207_lower" style="opacity:1">
+  <line x1="1514.5" y1="500" x2="1514.5" y2="538.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1514.5" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="1506.34" y="529.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="1514.49" cy="538.00" r="5.70" fill="#DB2777" opacity="0.92"/>
+  <rect x="1506.34" y="529.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+<g class="lp" data-key="212_lower" style="opacity:1">
+  <line x1="1549.2" y1="500" x2="1549.2" y2="556.0" stroke="#bbb" stroke-width="1.7"/>
+  <circle cx="1549.2" cy="500" r="1.8" fill="#bbb"/>
+  <rect x="1541.04" y="547.85" width="16.29" height="16.29" fill="#D03801" rx="0.5"/>
+  <circle cx="1549.18" cy="556.00" r="5.70" fill="#1D4ED8" opacity="0.92"/>
+  <rect x="1541.04" y="547.85" width="16.29" height="16.29" fill="none" rx="0.5" stroke="#D03801" stroke-width="1.4"/>
+</g>
+</g>
+<g id="domain-layer">
+<rect x="85" y="460" width="1485" height="40" fill="#f4f4f4" stroke="#999" stroke-width="0.8" rx="2"/>
+<rect x="85.00" y="460" width="62.45" height="40" fill="url(#stripe_Auto-P)"/>
+<line x1="85.00" y1="460" x2="85.00" y2="500" stroke="#EAB308" stroke-width="1.1" stroke-opacity="0.55"/>
+<line x1="147.45" y1="460" x2="147.45" y2="500" stroke="#EAB308" stroke-width="1.1" stroke-opacity="0.55"/>
+<rect x="251.54" y="460" width="208.18" height="40" fill="url(#stripe_KEN)"/>
+<line x1="251.54" y1="460" x2="251.54" y2="500" stroke="#F97316" stroke-width="1.1" stroke-opacity="0.55"/>
+<line x1="459.72" y1="460" x2="459.72" y2="500" stroke="#F97316" stroke-width="1.1" stroke-opacity="0.55"/>
+<rect x="459.72" y="460" width="152.66" height="40" fill="url(#stripe_Acidic)"/>
+<line x1="459.72" y1="460" x2="459.72" y2="500" stroke="#F59E0B" stroke-width="1.1" stroke-opacity="0.55"/>
+<line x1="612.38" y1="460" x2="612.38" y2="500" stroke="#F59E0B" stroke-width="1.1" stroke-opacity="0.55"/>
+<rect x="619.32" y="460" width="180.42" height="40" fill="url(#stripe_TopoII)"/>
+<line x1="619.32" y1="460" x2="619.32" y2="500" stroke="#10B981" stroke-width="1.1" stroke-opacity="0.55"/>
+<line x1="799.74" y1="460" x2="799.74" y2="500" stroke="#10B981" stroke-width="1.1" stroke-opacity="0.55"/>
+<rect x="806.68" y="460" width="284.51" height="40" fill="url(#stripe_Zn)"/>
+<line x1="806.68" y1="460" x2="806.68" y2="500" stroke="#3B82F6" stroke-width="1.1" stroke-opacity="0.55"/>
+<line x1="1091.19" y1="460" x2="1091.19" y2="500" stroke="#3B82F6" stroke-width="1.1" stroke-opacity="0.55"/>
+<rect x="841.38" y="460" width="659.23" height="40" fill="url(#stripe_Dimer)"/>
+<line x1="841.38" y1="460" x2="841.38" y2="500" stroke="#8B5CF6" stroke-width="1.1" stroke-opacity="0.55"/>
+<line x1="1500.61" y1="460" x2="1500.61" y2="500" stroke="#8B5CF6" stroke-width="1.1" stroke-opacity="0.55"/>
+<rect x="1153.64" y="460" width="416.36" height="40" fill="url(#stripe_CK2a)"/>
+<line x1="1153.64" y1="460" x2="1153.64" y2="500" stroke="#EC4899" stroke-width="1.1" stroke-opacity="0.55"/>
+<line x1="1570.00" y1="460" x2="1570.00" y2="500" stroke="#EC4899" stroke-width="1.1" stroke-opacity="0.55"/>
+</g>
+<g id="domain-labels">
+<text x="116.2" y="483" text-anchor="middle" font-size="10" font-weight="700" fill="#222" paint-order="stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">Auto-P</text>
+<a xlink:href="https://doi.org/10.1111/j.1432-1033.1993.tb18404.x" target="_blank"><text x="145.5" y="457" text-anchor="end" font-size="6.5" fill="#EAB308" font-weight="700" opacity="0.85">[1]</text></a>
+<text x="355.6" y="483" text-anchor="middle" font-size="10" font-weight="700" fill="#222" paint-order="stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">KEN</text>
+<a xlink:href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9957394/" target="_blank"><text x="457.7" y="457" text-anchor="end" font-size="6.5" fill="#F97316" font-weight="700" opacity="0.85">[2]</text></a>
+<text x="536.1" y="483" text-anchor="middle" font-size="10" font-weight="700" fill="#222" paint-order="stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">Acidic</text>
+<a xlink:href="https://pubmed.ncbi.nlm.nih.gov/10094390/" target="_blank"><text x="610.4" y="457" text-anchor="end" font-size="6.5" fill="#F59E0B" font-weight="700" opacity="0.85">[3]</text></a>
+<text x="709.5" y="483" text-anchor="middle" font-size="10" font-weight="700" fill="#222" paint-order="stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">TopoII*</text>
+<a xlink:href="https://www.frontiersin.org/journals/pediatrics/articles/10.3389/fped.2025.1583346/full" target="_blank"><text x="797.7" y="457" text-anchor="end" font-size="6.5" fill="#10B981" font-weight="700" opacity="0.85">[4]</text></a>
+<text x="948.9" y="483" text-anchor="middle" font-size="10" font-weight="700" fill="#222" paint-order="stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">Zn</text>
+<a xlink:href="https://pmc.ncbi.nlm.nih.gov/articles/PMC1171375/" target="_blank"><text x="1089.2" y="457" text-anchor="end" font-size="6.5" fill="#3B82F6" font-weight="700" opacity="0.85">[5]</text></a>
+<text x="1171.0" y="483" text-anchor="middle" font-size="10" font-weight="700" fill="#222" paint-order="stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">Dimer</text>
+<a xlink:href="https://pmc.ncbi.nlm.nih.gov/articles/PMC1171375/" target="_blank"><text x="1498.6" y="457" text-anchor="end" font-size="6.5" fill="#8B5CF6" font-weight="700" opacity="0.85">[5]</text></a>
+<text x="1361.8" y="483" text-anchor="middle" font-size="10" font-weight="700" fill="#222" paint-order="stroke" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round">CK2α</text>
+<a xlink:href="https://pubmed.ncbi.nlm.nih.gov/10094390/" target="_blank"><text x="1568.0" y="457" text-anchor="end" font-size="6.5" fill="#EC4899" font-weight="700" opacity="0.85">[6]</text></a>
+<text x="827" y="513" text-anchor="middle" font-size="9" font-weight="700" fill="#666">CSNK2B (215 aa)</text>
+</g>
+<g id="exons">
+<rect x="85.00" y="515" width="166.54" height="10" fill="#dcdcdc" stroke="#aaa" stroke-width="0.5"/>
+<text x="168.3" y="532" text-anchor="middle" font-size="8.5" fill="#777" font-weight="600">Ex2</text>
+<rect x="258.48" y="515" width="222.06" height="10" fill="#cfcfcf" stroke="#aaa" stroke-width="0.5"/>
+<text x="369.5" y="532" text-anchor="middle" font-size="8.5" fill="#777" font-weight="600">Ex3</text>
+<rect x="487.48" y="515" width="256.75" height="10" fill="#dcdcdc" stroke="#aaa" stroke-width="0.5"/>
+<text x="615.9" y="532" text-anchor="middle" font-size="8.5" fill="#777" font-weight="600">Ex4</text>
+<rect x="751.17" y="515" width="173.48" height="10" fill="#cfcfcf" stroke="#aaa" stroke-width="0.5"/>
+<text x="837.9" y="532" text-anchor="middle" font-size="8.5" fill="#777" font-weight="600">Ex5</text>
+<rect x="931.59" y="515" width="451.05" height="10" fill="#dcdcdc" stroke="#aaa" stroke-width="0.5"/>
+<text x="1157.1" y="532" text-anchor="middle" font-size="8.5" fill="#777" font-weight="600">Ex6</text>
+<rect x="1389.58" y="515" width="180.42" height="10" fill="#cfcfcf" stroke="#aaa" stroke-width="0.5"/>
+<text x="1479.8" y="532" text-anchor="middle" font-size="8.5" fill="#777" font-weight="600">Ex7</text>
+</g>
+<g id="position-axis">
+<line x1="85.00" y1="547" x2="85.00" y2="552" stroke="#bbb" stroke-width="0.8"/>
+<text x="85.00" y="566" text-anchor="middle" font-size="9" fill="#888">1</text>
+<line x1="251.54" y1="547" x2="251.54" y2="552" stroke="#bbb" stroke-width="0.8"/>
+<text x="251.54" y="566" text-anchor="middle" font-size="9" fill="#888">25</text>
+<line x1="425.02" y1="547" x2="425.02" y2="552" stroke="#bbb" stroke-width="0.8"/>
+<text x="425.02" y="566" text-anchor="middle" font-size="9" fill="#888">50</text>
+<line x1="598.50" y1="547" x2="598.50" y2="552" stroke="#bbb" stroke-width="0.8"/>
+<text x="598.50" y="566" text-anchor="middle" font-size="9" fill="#888">75</text>
+<line x1="771.99" y1="547" x2="771.99" y2="552" stroke="#bbb" stroke-width="0.8"/>
+<text x="771.99" y="566" text-anchor="middle" font-size="9" fill="#888">100</text>
+<line x1="945.47" y1="547" x2="945.47" y2="552" stroke="#bbb" stroke-width="0.8"/>
+<text x="945.47" y="566" text-anchor="middle" font-size="9" fill="#888">125</text>
+<line x1="1118.95" y1="547" x2="1118.95" y2="552" stroke="#bbb" stroke-width="0.8"/>
+<text x="1118.95" y="566" text-anchor="middle" font-size="9" fill="#888">150</text>
+<line x1="1292.43" y1="547" x2="1292.43" y2="552" stroke="#bbb" stroke-width="0.8"/>
+<text x="1292.43" y="566" text-anchor="middle" font-size="9" fill="#888">175</text>
+<line x1="1465.91" y1="547" x2="1465.91" y2="552" stroke="#bbb" stroke-width="0.8"/>
+<text x="1465.91" y="566" text-anchor="middle" font-size="9" fill="#888">200</text>
+<line x1="1570.00" y1="547" x2="1570.00" y2="552" stroke="#bbb" stroke-width="0.8"/>
+<text x="1570.00" y="566" text-anchor="middle" font-size="9" fill="#888">215</text>
+<text x="827" y="583" text-anchor="middle" font-size="10" fill="#aaa" font-style="italic">Amino acid position</text>
+</g>
+<g id="label-layer">
+<text x="85.0" y="411.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,85.0,411.5)">M1I</text>
+<text x="251.5" y="411.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,251.5,411.5)">V25G</text>
+<text x="265.4" y="395.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,265.4,395.5)">E27_D28dup</text>
+<text x="300.1" y="267.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,300.1,267.5)">D32N</text>
+<text x="314.0" y="395.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,314.0,395.5)">F34S</text>
+<text x="320.9" y="411.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,320.9,411.5)">N35K</text>
+<text x="327.9" y="379.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,327.9,379.5)">L36P</text>
+<text x="348.7" y="393.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,348.7,393.5)">L39R</text>
+<text x="501.4" y="411.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,501.4,411.5)">E61del</text>
+<text x="612.4" y="411.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,612.4,411.5)">E77K</text>
+<text x="674.8" y="393.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,674.8,393.5)">R86C</text>
+<text x="702.6" y="411.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,702.6,411.5)">T90P</text>
+<text x="751.2" y="393.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,751.2,393.5)">M97I</text>
+<text x="778.9" y="411.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,778.9,411.5)">Y101D</text>
+<text x="813.6" y="411.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,813.6,411.5)">F106V</text>
+<text x="834.4" y="393.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,834.4,393.5)">C109R</text>
+<text x="848.3" y="305.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,848.3,305.5)">R111P</text>
+<text x="931.6" y="411.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,931.6,411.5)">G123D</text>
+<text x="1028.7" y="357.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,1028.7,357.5)">C137F</text>
+<text x="1153.6" y="411.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,1153.6,411.5)">D155A</text>
+<text x="1202.2" y="411.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,1202.2,411.5)">H162R</text>
+<text x="1223.0" y="321.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,1223.0,321.5)">H165R</text>
+<text x="1230.0" y="395.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,1230.0,395.5)">M166R</text>
+<text x="1368.8" y="411.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,1368.8,411.5)">R186T</text>
+<text x="1375.7" y="395.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(-60,1375.7,395.5)">L187R</text>
+<text x="85.0" y="625.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,85.0,625.5)">M1?</text>
+<text x="105.8" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,105.8,553.5)">S4*</text>
+<text x="112.8" y="569.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,112.8,569.5)">E5X</text>
+<text x="140.5" y="607.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,140.5,607.5)">W9*</text>
+<text x="161.3" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,161.3,553.5)">W12*</text>
+<text x="216.8" y="571.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,216.8,571.5)">E20*</text>
+<text x="244.6" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,244.6,553.5)">E24X</text>
+<text x="251.5" y="605.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,251.5,605.5)">73-2A&gt;G</text>
+<text x="314.0" y="571.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,314.0,571.5)">F34fs</text>
+<text x="334.8" y="571.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,334.8,571.5)">T37fs</text>
+<text x="369.5" y="571.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,369.5,571.5)">Q42*</text>
+<text x="404.2" y="625.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,404.2,625.5)">R47*</text>
+<text x="411.1" y="659.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,411.1,659.5)">Q48*</text>
+<text x="459.7" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,459.7,553.5)">D55fs</text>
+<text x="487.5" y="643.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,487.5,643.5)">175+2T&gt;G</text>
+<text x="501.4" y="569.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,501.4,569.5)">E61*</text>
+<text x="543.0" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,543.0,553.5)">N67fs</text>
+<text x="640.1" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,640.1,553.5)">G81*</text>
+<text x="681.8" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,681.8,553.5)">Y87*</text>
+<text x="688.7" y="569.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,688.7,569.5)">I88fs</text>
+<text x="744.2" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,744.2,553.5)">Q96*</text>
+<text x="751.2" y="569.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,751.2,569.5)">291+1G&gt;A</text>
+<text x="758.1" y="675.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,758.1,675.5)">L98fs</text>
+<text x="778.9" y="589.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,778.9,589.5)">Y101*</text>
+<text x="869.1" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,869.1,553.5)">C114*</text>
+<text x="931.6" y="625.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,931.6,625.5)">367+2T&gt;C</text>
+<text x="938.5" y="569.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,938.5,569.5)">L124fs</text>
+<text x="945.5" y="585.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,945.5,585.5)">S125*</text>
+<text x="994.0" y="607.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,994.0,607.5)">M132fs</text>
+<text x="1112.0" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1112.0,553.5)">S149X</text>
+<text x="1132.8" y="569.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1132.8,569.5)">H152fs</text>
+<text x="1153.6" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1153.6,553.5)">D155fs</text>
+<text x="1174.5" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1174.5,553.5)">Y158*</text>
+<text x="1195.3" y="569.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1195.3,569.5)">481delA</text>
+<text x="1230.0" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1230.0,553.5)">M166fs</text>
+<text x="1236.9" y="569.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1236.9,569.5)">L167fs</text>
+<text x="1257.7" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1257.7,553.5)">V170fs</text>
+<text x="1278.6" y="569.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1278.6,569.5)">E173fs</text>
+<text x="1320.2" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1320.2,553.5)">P179fs</text>
+<text x="1334.1" y="569.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1334.1,569.5)">N181fs</text>
+<text x="1368.8" y="589.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1368.8,589.5)">558-2A&gt;G</text>
+<text x="1375.7" y="569.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1375.7,569.5)">L187fs</text>
+<text x="1403.5" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1403.5,553.5)">K191fs</text>
+<text x="1514.5" y="553.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1514.5,553.5)">F207fs</text>
+<text x="1549.2" y="571.5" text-anchor="start" font-size="8.5" fill="#111" font-weight="500" transform="rotate(60,1549.2,571.5)">K212fs</text>
+</g>
+<g id="hit-layer">
+<circle cx="85.0" cy="422.0" r="14" fill="transparent" class="hit" data-key="1_upper" data-d="{&quot;pos&quot;: 1, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;M1I&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;3G&gt;A&quot;, &quot;protein&quot;: &quot;p.Met1Ile&quot;, &quot;exons&quot;: [2], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Tonic-clonic seizures onset 3m; abnormal EEG; abnormal MRI in temporal/occipital lobes and hippocampus; profound DD/ID; unsteady upright head; language not acquired; treated with PB+LEV&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="85.0" cy="610.0" r="14" fill="transparent" class="hit" data-key="1_lower" data-d="{&quot;pos&quot;: 1, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;M1?&quot;, &quot;M&quot;: 3, &quot;F&quot;: 1, &quot;X&quot;: 1, &quot;total&quot;: 5, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d75&quot;, &quot;coding&quot;: &quot;1A&gt;G / 2T&gt;A / c.1 A &gt; G / c.1A&gt;G&quot;, &quot;protein&quot;: &quot;p.Met1?&quot;, &quot;exons&quot;: [1, 2], &quot;clinvar&quot;: [[&quot;932465&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/932465/&quot;]], &quot;phenos&quot;: [&quot;Spoke at 28m, walked at 23m. Seizures: none. First signs: 1-2y; late walk, language delay. Other: hypotonia, wide-based gait, mild hirsutism; pneumonia; MRI at 2.5y: T2 hyperintensity &amp; restricted diffusion of pontine central tegmental tracts&quot;, &quot;Mild ID, spoke at 3.5y, walked at 19m. Seizure onset: 1y. First signs: 1-2y; seizure, late walk, language delay. Other: hypotonia, poor coordination, attention deficit disorder&quot;, &quot;Severe global developmental delay, profound ID; seizures onset at 3 months; severely short stature; normal MRI.&quot;, &quot;Isolated growth hormone deficiency; mild intellectual disability (WISC IV score 60); walking at 18\u201320 months; language delay; febrile seizures in early childhood; generalized seizure at 19y; normal pituitary M&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="105.8" cy="538.0" r="14" fill="transparent" class="hit" data-key="4_lower" data-d="{&quot;pos&quot;: 4, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;S4*&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d71&quot;, &quot;coding&quot;: &quot;c.11C&gt;G&quot;, &quot;protein&quot;: &quot;p.Ser4*&quot;, &quot;exons&quot;: [2], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Focal seizures onset at 3 months ; hereditary mutation (family history of seizures); DD/ID (mild cognitive impairment); EEG: generalized discharges ; normal MRI ; treated with VPA; last seizure at 6y8m.+4&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="112.8" cy="538.0" r="14" fill="transparent" class="hit" data-key="5_lower" data-d="{&quot;pos&quot;: 5, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;E5X&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d71&quot;, &quot;coding&quot;: &quot;13\u2009G\u2009&gt;\u2009T&quot;, &quot;protein&quot;: &quot;E5X,211&quot;, &quot;exons&quot;: [2], &quot;clinvar&quot;: [[&quot;2656412&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/2656412/&quot;]], &quot;phenos&quot;: [&quot;Mild DD, seizure onset 5m (5 in 3 days), clustered seizures, 1-3min duration&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="140.5" cy="592.0" r="14" fill="transparent" class="hit" data-key="9_lower" data-d="{&quot;pos&quot;: 9, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;W9*&quot;, &quot;M&quot;: 3, &quot;F&quot;: 0, &quot;X&quot;: 1, &quot;total&quot;: 4, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d74&quot;, &quot;coding&quot;: &quot;27G&gt;A / 27del / c.27G&gt;A&quot;, &quot;protein&quot;: &quot;p.Trp9* / p.W9X&quot;, &quot;exons&quot;: [2], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Profound intellectual disability, limited to single words, walked but stopped at age 9. Seizure onset at 4 months (myoclonic, recurrent status epilepticus), highly pharmacoresistant.&quot;, &quot;Seizure onset at 7 months (generalized tonic-clonic seizures), initially controlled by valproic acid. Relapse at 8 years of age with focal seizures. Seizure-free from 10 years of age on valproic acid and carbamazepine. Mild intellectual disability and mild speech impairment.&quot;, &quot;GTCS clustered seizures onset at 7 months, focal seizures; mild ID, mild speech and behavioral impairments; normal motor milestones and MRI; treated with VPA.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="161.3" cy="538.0" r="14" fill="transparent" class="hit" data-key="12_lower" data-d="{&quot;pos&quot;: 12, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;W12*&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d71&quot;, &quot;coding&quot;: &quot;c.35G&gt;A&quot;, &quot;protein&quot;: &quot;p.Trp12Ter&quot;, &quot;exons&quot;: [1], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Poirier\u2013Bienvenu neurodevelopmental syndrome; focal seizures; epileptic spasms&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="216.8" cy="556.0" r="14" fill="transparent" class="hit" data-key="20_lower" data-d="{&quot;pos&quot;: 20, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;E20*&quot;, &quot;M&quot;: 2, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 2, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d72&quot;, &quot;coding&quot;: &quot;58G&gt;T / c.58G&gt;T&quot;, &quot;protein&quot;: &quot;p.Glu20*&quot;, &quot;exons&quot;: [2], &quot;clinvar&quot;: [[&quot;1677739&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/1677739/&quot;]], &quot;phenos&quot;: [&quot;Early-onset epilepsy, developmental delay, recurrent refractory status epilepticus with regression&quot;, &quot;Seizure onset at 3 months (GTC); LEV, OXC/seizure free; moderate ID; hypotonia; introverted/less interaction; abnormal EEG.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="244.6" cy="538.0" r="14" fill="transparent" class="hit" data-key="24_lower" data-d="{&quot;pos&quot;: 24, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;E24X&quot;, &quot;M&quot;: 0, &quot;F&quot;: 0, &quot;X&quot;: 1, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d71&quot;, &quot;coding&quot;: &quot;c.70 G&gt;T&quot;, &quot;protein&quot;: &quot;p.E24X&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="251.5" cy="422.0" r="14" fill="transparent" class="hit" data-key="25_upper" data-d="{&quot;pos&quot;: 25, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;V25G&quot;, &quot;M&quot;: 0, &quot;F&quot;: 0, &quot;X&quot;: 1, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;c.74 T&gt;G&quot;, &quot;protein&quot;: &quot;p.V25G&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="251.5" cy="574.0" r="14" fill="transparent" class="hit" data-key="25_lower" data-d="{&quot;pos&quot;: 25, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;73-2A&gt;G&quot;, &quot;M&quot;: 1, &quot;F&quot;: 1, &quot;X&quot;: 1, &quot;total&quot;: 3, &quot;dominant&quot;: &quot;Splicing&quot;, &quot;vtypes&quot;: &quot;Splicing\u00d73&quot;, &quot;coding&quot;: &quot;73-2A&gt;G / c.73-2A&gt;G&quot;, &quot;protein&quot;: &quot;&quot;, &quot;exons&quot;: [2], &quot;clinvar&quot;: [[&quot;2625093&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/2625093/&quot;], [&quot;521208&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/521208/&quot;]], &quot;phenos&quot;: [&quot;26m; febrile then afebrile GTC; ESES; 1-2y; late walk, language delay; hypotonia, slight dysarthria, motor incoordination&quot;, &quot;Onset 3y, myoclonic + absence seizures, mild DD, short stature (\u22123SD), ovarian follicles&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="265.4" cy="422.0" r="14" fill="transparent" class="hit" data-key="27_upper" data-d="{&quot;pos&quot;: 27, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;E27_D28dup&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;In-frame&quot;, &quot;vtypes&quot;: &quot;In-frame\u00d71&quot;, &quot;coding&quot;: &quot;78_83dup&quot;, &quot;protein&quot;: &quot;p.Glu27_Asp28dup&quot;, &quot;exons&quot;: [3], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Mild ID, spoke at 21m, walked at 15m. Seizure onset: 5m; absences, GTC. First signs: 5m; seizure. Other: MRI at 6m: two possible germinolytic cysts&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="300.1" cy="278.0" r="14" fill="transparent" class="hit" data-key="32_upper" data-d="{&quot;pos&quot;: 32, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;D32N&quot;, &quot;M&quot;: 4, &quot;F&quot;: 3, &quot;X&quot;: 2, &quot;total&quot;: 9, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d79&quot;, &quot;coding&quot;: &quot;94G&gt;A / 94G&gt;T / c. 95 A&gt;G / c.94 G&gt;A / c.94G&gt;A / c.94G&gt;C&quot;, &quot;protein&quot;: &quot;p.Asp32Asn / p.(D32G) / p.Asp32His / p.Asp32Tyr / p.D32N&quot;, &quot;exons&quot;: [3], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Moderate ID, spoke at 2-3y; 25 words at 5y, walked at 2-3y. Seizure onset: 1.5m; febrile sz. First signs: 1.5m; seizure. Other: hypotonia, mild dysmorphic features; MRI at 2y: mild to moderate diffuse abnormal signal in the cerebral white matter, low volume ventral pons&quot;, &quot;Moderate ID, speaks only a few words, walked at 2y. Seizure onset: 2y; absences, tonic-spasms. First signs: 1-2y; late walk, language delay. Other: wide-based ataxic gait, mild dysmorphic features&quot;, &quot;Moderate ID, delayed speech, walked at 2y. Seizure onset: 7y; absences. First signs: 1-2y; late walk, language delay. Other: hypotonia, affecting fine motor and speech dyspraxia, IQ 50, anxiety, episodes of SVT at birth, PDA that closed spontaneously, upslanting palpebral fissures, cleft soft palate, bifid uvula, renal hypoplasia, asymmetry in limb creases&quot;, &quot;Craniodigital intellectual disability syndrome with global developmental delay and hypotonia. Acute episodes of muscle tone loss (atonic seizures) onset at 9 months. Facial dysmorphisms including microbrachycephaly, low nasal bridge, malar hypoplasia, and prominent/dysplastic ears. Extremity anomalies including supernumerary nipples, left hand postaxial polydactyly, short fifth fingers, and nail hypoplasia. Unaltered brain MRI and disorganized base activity on EEG&quot;, &quot;Global developmental delay, moderate ID, moderate speech impairment. Craniofacial: deep-set eyes, broad nasal bridge, hypoplastic alae nasi, thin lips, prognathism, pointed chin, small/prominent antitragus, hypodontia. Limbs: brachydactyly, finger/toe syndactyly. Other: Ebstein&#x27;s anomaly, IgA nephropathy, thin hair.&quot;, &quot;Global developmental delay, speech impairment. Craniofacial: deep-set eyes, depressed nasal bridge, hypoplastic alae nasi, thin lips, prognathism, pointed chin, symmetric protruding ears, small teeth. Limbs: tapering fingers, toe clinodactyly. Other: WPW syndrome, thin hair.&quot;, &quot;Global developmental delay, speech impairment. Craniofacial: deep-set eyes, broad/depressed nasal bridge, hypoplastic alae nasi, arched upper lip, prognathism, pointed chin, asymmetric ears, delayed tooth eruption. Limbs: finger brachydactyly/contractures, small feet. Other: fenestrated ASD, sparse hair.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="314.0" cy="422.0" r="14" fill="transparent" class="hit" data-key="34_upper" data-d="{&quot;pos&quot;: 34, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;F34S&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;101T&gt;C&quot;, &quot;protein&quot;: &quot;p.Phe34Ser&quot;, &quot;exons&quot;: [3], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Mild ID, delayed speech, walked at 15m. Seizures: none. First signs: 2-3y; language delay. Other: mild dysmorphic features, unilateral polydactyly, hypermetropia, uterine agenesis, sleeping problems; MRI at 7y: periventricular gliosis&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="314.0" cy="556.0" r="14" fill="transparent" class="hit" data-key="34_lower" data-d="{&quot;pos&quot;: 34, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;F34fs&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 1, &quot;total&quot;: 2, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d72&quot;, &quot;coding&quot;: &quot;100delT&quot;, &quot;protein&quot;: &quot;p.Phe34Leufs*17 / p.Phe34fs*16&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;No intellectual or developmental delays; generalized tonic-clonic seizures onset at 5 months; normal MRI.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="320.9" cy="422.0" r="14" fill="transparent" class="hit" data-key="35_upper" data-d="{&quot;pos&quot;: 35, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;N35K&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;105T&gt;A&quot;, &quot;protein&quot;: &quot;p.Asn35Lys&quot;, &quot;exons&quot;: [3], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Does not babble; cannot sit unsupported. Seizures: none. First signs: 9m; late sit. Other: hypotonia, patent foramen ovale, macrocephaly, mild dysmorphic features, laryngeal cleft, aspiration of thin liquids&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="327.9" cy="422.0" r="14" fill="transparent" class="hit" data-key="36_upper" data-d="{&quot;pos&quot;: 36, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;L36P&quot;, &quot;M&quot;: 0, &quot;F&quot;: 0, &quot;X&quot;: 1, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;c.107T&gt;C&quot;, &quot;protein&quot;: &quot;p.L36P&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="334.8" cy="556.0" r="14" fill="transparent" class="hit" data-key="37_lower" data-d="{&quot;pos&quot;: 37, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;T37fs&quot;, &quot;M&quot;: 2, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 2, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d72&quot;, &quot;coding&quot;: &quot;108dup&quot;, &quot;protein&quot;: &quot;Thr37Tyrfs / p.Thr37Tyrfs*5&quot;, &quot;exons&quot;: [3], &quot;clinvar&quot;: [[&quot;430724&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/430724/&quot;]], &quot;phenos&quot;: [&quot;Myoclonic epilepsy from infancy, intelectual disability, developmental delay, 10m complex partial seizures, able to walk and speak, no dysmorphic features&quot;, &quot;GTCS onset at 20 months, focal seizures; mild ID, short sentences, autistic features; facial dysmorphisms including triangular face and hypertelorism; treated with VPA and LEV.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="348.7" cy="404.0" r="14" fill="transparent" class="hit" data-key="39_upper" data-d="{&quot;pos&quot;: 39, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;L39R&quot;, &quot;M&quot;: 0, &quot;F&quot;: 2, &quot;X&quot;: 0, &quot;total&quot;: 2, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d72&quot;, &quot;coding&quot;: &quot;1.0 / 116T&gt;G&quot;, &quot;protein&quot;: &quot;p.Leu39Arg&quot;, &quot;exons&quot;: [3], &quot;clinvar&quot;: [[&quot;&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/RCV002249016/?redir=rcv&amp;variant=RCV002249016&quot;]], &quot;phenos&quot;: [&quot;Childhood absence epilepsy onset at 5 years (65 months), focal seizures; mild ID, selective mutism; facial dysmorphisms, vascular skin abnormality, butterfly vertebra; Chiari 1 and syringomyelia on MRI; treated with lamotrigine and zonisamide.&quot;, &quot;Post-natal growth retardation, delayed developmental milestones, delayed tooth eruption, Chiari malformation with syringomyelia, butterfly vertebra, epilepsy (absence and focal seizures), mild intellectual disability with selective mutism, and facial dysmorphisms (broad forehead, frontal bossing, pointed chin, etc.).&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="369.5" cy="556.0" r="14" fill="transparent" class="hit" data-key="42_lower" data-d="{&quot;pos&quot;: 42, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;Q42*&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 1, &quot;total&quot;: 2, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d72&quot;, &quot;coding&quot;: &quot;124C&gt;T / c.124C&gt;T&quot;, &quot;protein&quot;: &quot;p.Gln42* / p.Gln42Ter&quot;, &quot;exons&quot;: [3], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;LD, fine motor delay that improved. Seizure onset: 4m; febrile sz, focal onset. First signs: 4m; seizure&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="404.2" cy="610.0" r="14" fill="transparent" class="hit" data-key="47_lower" data-d="{&quot;pos&quot;: 47, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;R47*&quot;, &quot;M&quot;: 2, &quot;F&quot;: 1, &quot;X&quot;: 2, &quot;total&quot;: 5, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d75&quot;, &quot;coding&quot;: &quot;139 C&gt;T / 139C&gt;T / c.139 G&gt;T / c.139C&gt;T&quot;, &quot;protein&quot;: &quot;p.Arg47* / R47* / p.(Arg47*) / p.R47X&quot;, &quot;exons&quot;: [3], &quot;clinvar&quot;: [[&quot;426599&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/426599/&quot;]], &quot;phenos&quot;: [&quot;Onset 11m, mod-mild development delay, speech delay and learning disability, multiple episodes per day (a few seconds and quick recovery)&quot;, &quot;Mild ID, simple sentences; fine motor delay, walked at 15m. Seizure onset: 2y; drop attacks, head drops with staring of eyes. First signs: 2-3y; seizure. Other: poor coordination&quot;, &quot;Focal impaired awareness and myclonic seizures (onset 6d), global development delay, cardiac arrhymthia in NICU&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="411.1" cy="628.0" r="14" fill="transparent" class="hit" data-key="48_lower" data-d="{&quot;pos&quot;: 48, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;Q48*&quot;, &quot;M&quot;: 1, &quot;F&quot;: 5, &quot;X&quot;: 0, &quot;total&quot;: 6, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d76&quot;, &quot;coding&quot;: &quot;c.142C &gt; T / c.142C&gt;T&quot;, &quot;protein&quot;: &quot;p.Gln48* / p.Q48X&quot;, &quot;exons&quot;: [3], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Seizure onset 3m, Severe-moderate, DEE, (FS, T, GCTS)&quot;, &quot;Seizure onset at 10 months (myoclonic); LEV/seizure free; mild ID; abnormal EEG.&quot;, &quot;Myoclonic seizures (onset 1y5m), mild intellectual/developmental delay, speech delay EEG: slow background, multifocal/diffuse spike-slow discharges, MRI: slight myelination delay, seizures controlled by Valproate&quot;, &quot;Absence and myclonic seizures (onset 2y), mild ID, ptosis and dental diastema&quot;, &quot;Generalized tonic-clonic seizures (onset 10y), no disability, bulbous nose&quot;, &quot;Absence and GTC seizures (onset 9m), mild ID, elongated face and prgonathism&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="459.7" cy="538.0" r="14" fill="transparent" class="hit" data-key="55_lower" data-d="{&quot;pos&quot;: 55, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;D55fs&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;158_159insA&quot;, &quot;protein&quot;: &quot;p.Asp55fs*4&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Profound intellectual disability; short sentences; focal seizures onset at 2 months; normal MRI.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="487.5" cy="628.0" r="14" fill="transparent" class="hit" data-key="59_lower" data-d="{&quot;pos&quot;: 59, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;175+2T&gt;G&quot;, &quot;M&quot;: 3, &quot;F&quot;: 3, &quot;X&quot;: 0, &quot;total&quot;: 6, &quot;dominant&quot;: &quot;Splicing&quot;, &quot;vtypes&quot;: &quot;Splicing\u00d76&quot;, &quot;coding&quot;: &quot;175+2T&gt;G / c.175+1G&gt;A / c.175+1G&gt;C / c.176-2A-C&quot;, &quot;protein&quot;: &quot;&quot;, &quot;exons&quot;: [2, 3], &quot;clinvar&quot;: [[&quot;2628412&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/2628412/&quot;], [&quot;805768&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/805768/&quot;]], &quot;phenos&quot;: [&quot;Severe attention and learning difficulties at 6y, speaking with few words at 7y, facial dysmorphy with mandibular prognathism,open mouth in the \ufb01xed O position with protruded tongue, bushy eye-brows, and \ufb02at philtrum at 10y&quot;, &quot;Generalized tonic-clonic and absence seizures (onset 3m), moderate ID, aortic root dilation&quot;, &quot;Generalized tonic-clonic seizures (onset 3y), mild ID, prognathism and dental abnormalities&quot;, &quot;Focal impaired awareness and myclonic seizures (onset 1y), no disability, bitemporal narrowing&quot;, &quot;Focal impaired awarness and GTC seizures (onset 8m), global developmental delay, normal MRI&quot;, &quot;Onset 9m, GTCS, moderate DD, language delay, refractory seizures&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="501.4" cy="422.0" r="14" fill="transparent" class="hit" data-key="61_upper" data-d="{&quot;pos&quot;: 61, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;E61del&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;In-frame&quot;, &quot;vtypes&quot;: &quot;In-frame\u00d71&quot;, &quot;coding&quot;: &quot;181_183del&quot;, &quot;protein&quot;: &quot;p.Glu61del&quot;, &quot;exons&quot;: [4], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Febrile seizures onset at 8 months; profound ID, severe hypotonia, motor delay; lymphedema, severe scoliosis, cardiac anomalies; dysmorphic features; abnormal MRI with colloid cyst and hypoplasia of corpus callosum; treated with VPA.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="501.4" cy="538.0" r="14" fill="transparent" class="hit" data-key="61_lower" data-d="{&quot;pos&quot;: 61, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;E61*&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d71&quot;, &quot;coding&quot;: &quot;181G&gt;T&quot;, &quot;protein&quot;: &quot;p.Glu61*&quot;, &quot;exons&quot;: [4], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Mild ID, delayed speech; delayed walking. Seizure onset: 2m; GTC. First signs: 2m; seizure. Other: hypotonia, macrocephaly, GI issues, hepatomegaly, strabismus &amp; nystagmus, non-patent tear ducts, recurrent otitis media as infant, FTT, congenital scalp nevus sebaceous, hypopigmented &amp; hyperpigmented macules, anemia&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="543.0" cy="538.0" r="14" fill="transparent" class="hit" data-key="67_lower" data-d="{&quot;pos&quot;: 67, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;N67fs&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;c.198del&quot;, &quot;protein&quot;: &quot;p.Asn67Thrfs*5&quot;, &quot;exons&quot;: [4], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;GTCS onset at 17 months (1y5m) ; normal development; EEG: focal discharges ; normal MRI ; seizure-free for 1y3m without medication.+4&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="612.4" cy="422.0" r="14" fill="transparent" class="hit" data-key="77_upper" data-d="{&quot;pos&quot;: 77, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;E77K&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;229G&gt;A&quot;, &quot;protein&quot;: &quot;p.Glu77Lys&quot;, &quot;exons&quot;: [4], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;LD, spoke at 21m, walked at 21m. Seizures: none. First signs: 1-2y; late walk, language delay. Other: hypotonia, FTT, microcephaly, mild dysmorphic features, undescended testes, soft/doughy/translucent skin, cleft palate&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="640.1" cy="538.0" r="14" fill="transparent" class="hit" data-key="81_lower" data-d="{&quot;pos&quot;: 81, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;G81*&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d71&quot;, &quot;coding&quot;: &quot;c.241G&gt;T&quot;, &quot;protein&quot;: &quot;p.Gly81*&quot;, &quot;exons&quot;: [4], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Absence seizures (onset 3y), borderline IQ 80, synophrys and prognathism&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="674.8" cy="404.0" r="14" fill="transparent" class="hit" data-key="86_upper" data-d="{&quot;pos&quot;: 86, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;R86C&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 1, &quot;total&quot;: 2, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d72&quot;, &quot;coding&quot;: &quot;256C&gt;T / c.256C&gt;T&quot;, &quot;protein&quot;: &quot;p.(Arg86Cys) / p.Arg86Cys&quot;, &quot;exons&quot;: [4], &quot;clinvar&quot;: [[&quot;985324&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/985324/&quot;]], &quot;phenos&quot;: [&quot;Spoke at 8-9m, walked at 13m. Seizure onset: 14m; myoclonic-absences. First signs: 14m; seizure&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="681.8" cy="538.0" r="14" fill="transparent" class="hit" data-key="87_lower" data-d="{&quot;pos&quot;: 87, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;Y87*&quot;, &quot;M&quot;: 0, &quot;F&quot;: 0, &quot;X&quot;: 1, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d71&quot;, &quot;coding&quot;: &quot;c. 261 C&gt;A&quot;, &quot;protein&quot;: &quot;p.(Y87*)&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="688.7" cy="538.0" r="14" fill="transparent" class="hit" data-key="88_lower" data-d="{&quot;pos&quot;: 88, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;I88fs&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;264delC&quot;, &quot;protein&quot;: &quot;I88Ifs*46&quot;, &quot;exons&quot;: [4], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;No ID/DD, seizure onset 6m, GTCS, &gt;10 in first month&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="702.6" cy="422.0" r="14" fill="transparent" class="hit" data-key="90_upper" data-d="{&quot;pos&quot;: 90, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;T90P&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;c.268A &gt; C&quot;, &quot;protein&quot;: &quot;p.Thr90Pro&quot;, &quot;exons&quot;: [4], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Borderline ID (FSIQ 75), language delay; motor development normal. Seizure onset: 46m; eyelid myoclonia with/without absences, eye-closure\u2013induced. First signs: 1\u20132y; language delay. Other: inattention, hyperactivity; normal growth, no dysmorphic features, normal MRI aside from mild frontal white matter changes.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="744.2" cy="538.0" r="14" fill="transparent" class="hit" data-key="96_lower" data-d="{&quot;pos&quot;: 96, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;Q96*&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d71&quot;, &quot;coding&quot;: &quot;286C&gt;T&quot;, &quot;protein&quot;: &quot;p.Gln96*&quot;, &quot;exons&quot;: [4], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Focal seizures and generalized tonic-clonic seizures onset at 16 months; mild ID, speech delay, mild hyperactivity disorder; normal MRI; treated with VPA.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="751.2" cy="404.0" r="14" fill="transparent" class="hit" data-key="97_upper" data-d="{&quot;pos&quot;: 97, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;M97I&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 1, &quot;total&quot;: 2, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d72&quot;, &quot;coding&quot;: &quot;291G&gt;A / c. 291 G&gt;A&quot;, &quot;protein&quot;: &quot;p.M97I / p.Met97Ile&quot;, &quot;exons&quot;: [4], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Mild ID, spoke at 3y, walked at 17m. Seizure onset: 4m; focal onset, GTCs. First signs: 4m; seizure. Other: developmental coordination disorder, mild dysmorphic features&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="751.2" cy="538.0" r="14" fill="transparent" class="hit" data-key="97_lower" data-d="{&quot;pos&quot;: 97, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;291+1G&gt;A&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Splicing&quot;, &quot;vtypes&quot;: &quot;Splicing\u00d71&quot;, &quot;coding&quot;: &quot;c.291+1G&gt;A&quot;, &quot;protein&quot;: &quot;&quot;, &quot;exons&quot;: [3], &quot;clinvar&quot;: [[&quot;3376371&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/3376371/&quot;]], &quot;phenos&quot;: [&quot;Onset 5m, GTCS, moderate DD, micropenis, dull facial expression&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="758.1" cy="628.0" r="14" fill="transparent" class="hit" data-key="98_lower" data-d="{&quot;pos&quot;: 98, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;L98fs&quot;, &quot;M&quot;: 1, &quot;F&quot;: 4, &quot;X&quot;: 1, &quot;total&quot;: 6, &quot;dominant&quot;: &quot;Splicing&quot;, &quot;vtypes&quot;: &quot;Splicing\u00d76&quot;, &quot;coding&quot;: &quot;292-2A&gt;T / c.292-10T&gt;G / c.292-1G&gt;A / c.292-2A&gt;G / c.367+5G&gt;A / c.367+6T&gt;C&quot;, &quot;protein&quot;: &quot;p.Leu98Alafs*11&quot;, &quot;exons&quot;: [5], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Tonic-clonic seizures onset 4m; abnormal EEG; subdural effusion on MRI; moderate DD/ID; unsteady upright head; language not acquired; treated with DAP+PB+OXC&quot;, &quot;Seizure onset at 10 months (complex febrile seizure); VPA/seizure free; normal intellect; dysmorphism (eyes cannot move outwards and upward); abnormal EEG.&quot;, &quot;Seizure onset at 3 months (focal onset, GTC); LEV/seizure free; mild ID; hypotonia; abnormal EEG.&quot;, &quot;Seizure onset at 4 months (focal seizures); OXC/seizure free; mild ID; hypotonia; small jaw, prominent forehead; speech delay; motor delay; boundary EEG.&quot;, &quot;GTCS onset at 5 months ; normal development; EEG: generalized discharges ; normal MRI ; treated with OXC (previously LEV); last seizure at 4y3m.+4&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="778.9" cy="422.0" r="14" fill="transparent" class="hit" data-key="101_upper" data-d="{&quot;pos&quot;: 101, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;Y101D&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;c.301T&gt;G&quot;, &quot;protein&quot;: &quot;p.Tyr101Asp&quot;, &quot;exons&quot;: [5], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Focal seizures onset at 8 months ; normal development ; normal EEG and MRI ; treated with VPA and LEV; last seizure at 4y4m.+3&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="778.9" cy="574.0" r="14" fill="transparent" class="hit" data-key="101_lower" data-d="{&quot;pos&quot;: 101, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;Y101*&quot;, &quot;M&quot;: 2, &quot;F&quot;: 0, &quot;X&quot;: 1, &quot;total&quot;: 3, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71; Nonsense\u00d72&quot;, &quot;coding&quot;: &quot;303C&gt;A / c.302del&quot;, &quot;protein&quot;: &quot;p.Tyr101* / p.(Y101Sfs*33)&quot;, &quot;exons&quot;: [4], &quot;clinvar&quot;: [[&quot;1076087&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/1076087/&quot;]], &quot;phenos&quot;: [&quot;Developmental delay, intellectual disability, epilepsy&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="813.6" cy="422.0" r="14" fill="transparent" class="hit" data-key="106_upper" data-d="{&quot;pos&quot;: 106, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;F106V&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;316T&gt;G&quot;, &quot;protein&quot;: &quot;p.Phe106Val&quot;, &quot;exons&quot;: [4], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Mild ID, spoke at 2y; 30 words at 4.5y, walked at 17m. Seizure onset: 3-4y; febrile sz. First signs: 1-2y; language delay. Other: hypotonia, macrocephaly, mild dysmorphic features, wide spacing of teeth, vertical talus, soft skin, mild laxity of finger joints&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="834.4" cy="404.0" r="14" fill="transparent" class="hit" data-key="109_upper" data-d="{&quot;pos&quot;: 109, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;C109R&quot;, &quot;M&quot;: 1, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 2, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d72&quot;, &quot;coding&quot;: &quot;c.325T&gt;C / c.326G&gt;A&quot;, &quot;protein&quot;: &quot;p.Cys109Arg / p.Cys109Tyr&quot;, &quot;exons&quot;: [5], &quot;clinvar&quot;: [[&quot;3898878&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/3898878/&quot;]], &quot;phenos&quot;: [&quot;Seizure onset at 8 months (GTC); VPA/occasional petit mal; mild ID; hypotonia; autistic features; abnormal EEG.&quot;, &quot;GTCS onset at 16 months (1y4m); DD/ID (mild cognitive impairment); EEG: generalized discharges ; normal MRI ; treated with VPA (previously LTG, LEV); last seizure at 7y10m.+3&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="848.3" cy="332.0" r="14" fill="transparent" class="hit" data-key="111_upper" data-d="{&quot;pos&quot;: 111, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;R111P&quot;, &quot;M&quot;: 4, &quot;F&quot;: 2, &quot;X&quot;: 0, &quot;total&quot;: 6, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d76&quot;, &quot;coding&quot;: &quot;332G&gt;A / 332G&gt;C / 332\u2009G\u2009&gt;\u2009C / c.332G&gt;C&quot;, &quot;protein&quot;: &quot;p.Arg111Pro / R111P / p.Arg111His&quot;, &quot;exons&quot;: [5], &quot;clinvar&quot;: [[&quot;1320202&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/1320202/&quot;]], &quot;phenos&quot;: [&quot;Mild DD, GTCS&quot;, &quot;Mild DD, GTCS, fever after seizures&quot;, &quot;GTCS and infantile spasms onset at 16 months; profound ID/DD, severe spastic hypertonus, motor and speech delay; dysmorphic features; abnormal MRI with gyral simplification; treated with LEV.&quot;, &quot;Moderate intellectual disability; delayed speech; generalized tonic-clonic seizures onset at 13 months; mild proportionate short stature; slight widening of lateral ventricles on MRI.&quot;, &quot;Learning disabilities; no seizures; normal MRI.&quot;, &quot;GTCS onset at 2.5 months; DD/ID (severe cognitive and motor impairment); EEG: multifocal discharges; MRI not performed ; treated with VPA (previously OXC, TPM, LEV); seizure-free since 4 months of age.+4&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="869.1" cy="538.0" r="14" fill="transparent" class="hit" data-key="114_lower" data-d="{&quot;pos&quot;: 114, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;C114*&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d71&quot;, &quot;coding&quot;: &quot;c.342T&gt;A&quot;, &quot;protein&quot;: &quot;p.Cys114*&quot;, &quot;exons&quot;: [5], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;FBTCS onset at 6 years; DD/ID (severe cognitive impairment); EEG: focal discharges; MRI: deep cerebellar sulci ; treated with VPA; last seizure at 7y8m.+4&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="931.6" cy="422.0" r="14" fill="transparent" class="hit" data-key="123_upper" data-d="{&quot;pos&quot;: 123, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;G123D&quot;, &quot;M&quot;: 0, &quot;F&quot;: 0, &quot;X&quot;: 1, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;c.368G&gt;A&quot;, &quot;protein&quot;: &quot;(p.G123D)&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="931.6" cy="610.0" r="14" fill="transparent" class="hit" data-key="123_lower" data-d="{&quot;pos&quot;: 123, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;367+2T&gt;C&quot;, &quot;M&quot;: 3, &quot;F&quot;: 2, &quot;X&quot;: 0, &quot;total&quot;: 5, &quot;dominant&quot;: &quot;Splicing&quot;, &quot;vtypes&quot;: &quot;Splicing\u00d75&quot;, &quot;coding&quot;: &quot;367+2T&gt;C / 368-2A&gt;G / 368-2\u2009A\u2009&gt;\u2009G / c.367+5G&gt;A / c.368-1G&gt;A&quot;, &quot;protein&quot;: &quot;&quot;, &quot;exons&quot;: [5, 6], &quot;clinvar&quot;: [[&quot;805773&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/805773/&quot;], [&quot;812520&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/812520/&quot;]], &quot;phenos&quot;: [&quot;Myoclonic epilepsy at 18m,  dif\ufb01culty in speech language and walking at 7y, 1 seizure per 10 days at 12y, minor facial dysmorphy with dental anomalies, strabismus, and downturned corners of the mouth at 19y&quot;, &quot;Mild DD, clustered seizures onset 3.5m, GTCS, 3 in 10d, 3-5min duration&quot;, &quot;GTCS onset at 10 months, relapsed at 7 years during treatment reduction; mild ID with attention and memory impairments; normal speech, motor, and MRI; treated with VPA.&quot;, &quot;Focal seizures onset at 3 months ; normal development; EEG: multifocal discharges and focal seizures; MRI: widened subarachnoid space ; treated with OXC; seizure-free since 3 months of age.+4&quot;, &quot;Focal seizures onset at 4 months ; normal development; EEG: focal discharges; MRI: widened subarachnoid space and delayed myelination ; treated with LEV; seizure-free since 5 months of age.+4&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="938.5" cy="538.0" r="14" fill="transparent" class="hit" data-key="124_lower" data-d="{&quot;pos&quot;: 124, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;L124fs&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Splicing&quot;, &quot;vtypes&quot;: &quot;Splicing\u00d71&quot;, &quot;coding&quot;: &quot;c.367+5delG&quot;, &quot;protein&quot;: &quot;p.Leu124Aspfs*26; p.Leu98Alafs*11&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;ID, multiple seizure types (tonic-clonic, myoclonic, clonic, absence), abnormal EEG. Craniofacial: prominent nasal bridge, class III underbite. Limbs: flat feet. Other: hypotonia, memory impairment, anxiety, depression, OCD, proprioception issues.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="945.5" cy="538.0" r="14" fill="transparent" class="hit" data-key="125_lower" data-d="{&quot;pos&quot;: 125, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;S125*&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d71&quot;, &quot;coding&quot;: &quot;c.374C&gt;G&quot;, &quot;protein&quot;: &quot;p.Ser125*&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Global developmental delay, tonic-clonic seizures. Craniofacial: prominent nasal bridge, protruding ears. Other: mild cardiac defect, emotional regulation disorder, low attention span, hypopigmented hair.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="994.0" cy="592.0" r="14" fill="transparent" class="hit" data-key="132_lower" data-d="{&quot;pos&quot;: 132, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;M132fs&quot;, &quot;M&quot;: 1, &quot;F&quot;: 3, &quot;X&quot;: 0, &quot;total&quot;: 4, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d74&quot;, &quot;coding&quot;: &quot;384_394del / 394_404del / c.384_394del / c.384_394del11&quot;, &quot;protein&quot;: &quot;p.M132fs / p.Met132LeuFs*110 / p.Met132Leufs*110 / p.Met132LeufsTer110&quot;, &quot;exons&quot;: [6], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Mild ID, spoke at 2.5y, walked at 18m. Seizure onset: GTC at 3y and 5y. First signs: 1-2y; language delay. Other: FTT, delayed bone age/puberty, macrocephaly, mild dysmorphic features, bilateral sensorineural hearing loss, mild scoliosis, significant behavioral concerns&quot;, &quot;Atonic seizures and GTCS onset at 9 months; brachycephaly, cavernous angioma on earlobe, microcephaly; normal MRI; treated with VPA.&quot;, &quot;Febrile and afebrile seizures, status epilepticus, myoclonic seizures, microcephaly, mild psychomotor development impairment, and facial dysmorphisms (hypertelorism, broad forehead, cupid&#x27;s bowed upper lip); patient also carries a de novo SCN1A splice site mutation.&quot;, &quot;Focal impaired awareness and atonic seizures (onset 9m), brachycephaly and deep-set eyes&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1028.7" cy="368.0" r="14" fill="transparent" class="hit" data-key="137_upper" data-d="{&quot;pos&quot;: 137, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;C137F&quot;, &quot;M&quot;: 1, &quot;F&quot;: 3, &quot;X&quot;: 0, &quot;total&quot;: 4, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d74&quot;, &quot;coding&quot;: &quot;409T&gt;C / 409\u2009T\u2009&gt;\u2009G / 410G&gt;T / 410\u2009G\u2009&gt;\u2009T&quot;, &quot;protein&quot;: &quot;C137F / C137G / p.Cys137Arg / p.Cys137Phe&quot;, &quot;exons&quot;: [6], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Seizure onset 2m, clustered GTCS, 1-2min duration, 10 seizures in 1st month, no developmental delay&quot;, &quot;Seizure onset 6m, clustered GTCS, 1-2min duration, 10 seizures in 1st month, no developmental delay&quot;, &quot;Spoke at 2y, sentences at 5y. Seizure onset: 6m; focal onset, GTC. First signs: 6m; seizure. Other: mild dysmorphic features&quot;, &quot;Tonic-clonic seizures onset 5m; normal EEG and MRI; mild DD/ID; unstable to sit alone; normal language; treated with VPA&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1112.0" cy="538.0" r="14" fill="transparent" class="hit" data-key="149_lower" data-d="{&quot;pos&quot;: 149, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;S149X&quot;, &quot;M&quot;: 0, &quot;F&quot;: 0, &quot;X&quot;: 1, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d71&quot;, &quot;coding&quot;: &quot;c.446 C&gt;G&quot;, &quot;protein&quot;: &quot;p. S149X&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1132.8" cy="538.0" r="14" fill="transparent" class="hit" data-key="152_lower" data-d="{&quot;pos&quot;: 152, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;H152fs&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;453_c.454insAC&quot;, &quot;protein&quot;: &quot;p.H152fs*76&quot;, &quot;exons&quot;: [6], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;DD, hypotonia, onset 5m, delayed speech and dental development, poor cognition&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1153.6" cy="422.0" r="14" fill="transparent" class="hit" data-key="155_upper" data-d="{&quot;pos&quot;: 155, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;D155A&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;c.464A&gt;C&quot;, &quot;protein&quot;: &quot;p.Asp155Ala&quot;, &quot;exons&quot;: [6], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Atonic seizures and atypical absence seizures onset at 22 months (1y10m); DD/ID (mild cognitive impairment); EEG: generalized discharges and atonic seizures ; normal MRI ; medically refractory, treated with PER and LCM.+3&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1153.6" cy="538.0" r="14" fill="transparent" class="hit" data-key="155_lower" data-d="{&quot;pos&quot;: 155, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;D155fs&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;c.462_465del&quot;, &quot;protein&quot;: &quot;p.Asp155Alafs*70&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Seizure onset at 4 months (GTC); LEV, VPA/medically refractory; profound ID; hypotonia; delayed neck control, poor pursuit of light/objects, cannot sit at 6 months; abnormal EEG.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1174.5" cy="538.0" r="14" fill="transparent" class="hit" data-key="158_lower" data-d="{&quot;pos&quot;: 158, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;Y158*&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Nonsense&quot;, &quot;vtypes&quot;: &quot;Nonsense\u00d71&quot;, &quot;coding&quot;: &quot;c.474C&gt;G&quot;, &quot;protein&quot;: &quot;p.Tyr158*&quot;, &quot;exons&quot;: [6], &quot;clinvar&quot;: [[&quot;1343861&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/1343861/&quot;]], &quot;phenos&quot;: [&quot;GTCS onset at 8 months ; normal development ; normal EEG and MRI ; treated with OXC; seizure-free since 11 months of age.+3&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1195.3" cy="538.0" r="14" fill="transparent" class="hit" data-key="161_lower" data-d="{&quot;pos&quot;: 161, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;481delA&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;c.481delA&quot;, &quot;protein&quot;: &quot;&quot;, &quot;exons&quot;: [6], &quot;clinvar&quot;: [[&quot;3383940&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/3383940/&quot;]], &quot;phenos&quot;: [&quot;Onset 1y, GTCS, mild DD, language delay, white thigh macules&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1202.2" cy="422.0" r="14" fill="transparent" class="hit" data-key="162_upper" data-d="{&quot;pos&quot;: 162, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;H162R&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;c.485A&gt;G&quot;, &quot;protein&quot;: &quot;p.His162Arg&quot;, &quot;exons&quot;: [6], &quot;clinvar&quot;: [[&quot;996840&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/996840/&quot;]], &quot;phenos&quot;: [&quot;FBTCS and myoclonic seizures onset at 14 days; DD/ID (severe cognitive and motor impairment); EEG: generalized discharges ; normal MRI ; medically refractory, treated with VPA, LTG, TPM, and PER.+3&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1223.0" cy="332.0" r="14" fill="transparent" class="hit" data-key="165_upper" data-d="{&quot;pos&quot;: 165, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;H165R&quot;, &quot;M&quot;: 3, &quot;F&quot;: 1, &quot;X&quot;: 2, &quot;total&quot;: 6, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d76&quot;, &quot;coding&quot;: &quot;494A&gt;G / c.494A&gt;G&quot;, &quot;protein&quot;: &quot;p.His165Arg / His165Arg / p. His165Arg / p.H165R&quot;, &quot;exons&quot;: [6], &quot;clinvar&quot;: [[&quot;996840&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/996840/&quot;]], &quot;phenos&quot;: [&quot;Seizures at 3 days, focal seizures, profound disability, inverted mouth shape, freqient acute pneumonia, Gastro esophageal reflux disease&quot;, &quot;Myoclonic seizures onset 5 days; abnormal EEG; normal MRI; profound DD/ID; unsteady upright head; monosyllabic language; treated with PB+TPM+LEV&quot;, &quot;Severe hypotonia and drug-refractory myoclonic epilepsy onset in neonatal period. Dysmorphic features including midfacial hypoplasia, bilateral strabismus, tongue protrusion, and dysplastic ears. Unaltered EEG and normal brain MRI. Obstructive laryngomalacia requiring supraglottoplasty&quot;, &quot;Focal-clonic seizures onset at 7 days; profound ID/DD, poor motor skills, hypotonia, distal dystonia; laryngomalacia, hypoacusia, growth restriction, facial dysmorphism; abnormal MRI with hypoplasia of cerebellar worm; treated with LEV.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1230.0" cy="422.0" r="14" fill="transparent" class="hit" data-key="166_upper" data-d="{&quot;pos&quot;: 166, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;M166R&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;c.497T&gt;G&quot;, &quot;protein&quot;: &quot;p.Met166Arg&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Seizure onset at 4 months (tonic-clonic); LEV/seizure free; moderate ID; hypotonia; bilateral cryptorchidism, small penis; speaks slowly, unable to express long sentences; abnormal EEG.&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1230.0" cy="538.0" r="14" fill="transparent" class="hit" data-key="166_lower" data-d="{&quot;pos&quot;: 166, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;M166fs&quot;, &quot;M&quot;: 0, &quot;F&quot;: 0, &quot;X&quot;: 1, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;c.494_495del&quot;, &quot;protein&quot;: &quot;p.M166Afs&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1236.9" cy="538.0" r="14" fill="transparent" class="hit" data-key="167_lower" data-d="{&quot;pos&quot;: 167, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;L167fs&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;499delC&quot;, &quot;protein&quot;: &quot;p.Leu167Serfs*60&quot;, &quot;exons&quot;: [6], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Febrile seizures onset 14m; normal EEG and MRI; moderate DD/ID; unsteady walking; language not acquired; no treatment needed&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1257.7" cy="538.0" r="14" fill="transparent" class="hit" data-key="170_lower" data-d="{&quot;pos&quot;: 170, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;V170fs&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;c.508_509delGT&quot;, &quot;protein&quot;: &quot;p.V170Afs*75&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Seizure onset 2m, Severe-moderate, DEE, (FS, T, GCTS)&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1278.6" cy="538.0" r="14" fill="transparent" class="hit" data-key="173_lower" data-d="{&quot;pos&quot;: 173, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;E173fs&quot;, &quot;M&quot;: 0, &quot;F&quot;: 0, &quot;X&quot;: 1, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;c.512_515dup&quot;, &quot;protein&quot;: &quot;p.Glu173Sfs*74&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1320.2" cy="538.0" r="14" fill="transparent" class="hit" data-key="179_lower" data-d="{&quot;pos&quot;: 179, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;P179fs&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;533_534insGT&quot;, &quot;protein&quot;: &quot;Pro179Tyrfs*49&quot;, &quot;exons&quot;: [6], &quot;clinvar&quot;: [[&quot;805770&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/805770/&quot;]], &quot;phenos&quot;: [&quot;Seizures at 2 months, facial clonic seizures, profound disability, cerebellar atrophy, precocious puberty&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1334.1" cy="538.0" r="14" fill="transparent" class="hit" data-key="181_lower" data-d="{&quot;pos&quot;: 181, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;N181fs&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;542del&quot;, &quot;protein&quot;: &quot;p.Asn181fs&quot;, &quot;exons&quot;: [6], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Severe ID, nonverbal, walked at 7y, now only with assistance. Seizure onset: 10m; GTC myoclonic, atypical absences; RSE. First signs: 10m; seizure. Other: hypotonia, ataxia, short stature, partial growth hormone deficiency, mild dysmorphic features, hypoglycemia in childhood&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1368.8" cy="422.0" r="14" fill="transparent" class="hit" data-key="186_upper" data-d="{&quot;pos&quot;: 186, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;R186T&quot;, &quot;M&quot;: 0, &quot;F&quot;: 0, &quot;X&quot;: 1, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;c.557G&gt;C&quot;, &quot;protein&quot;: &quot;p.(Arg186Thr)&quot;, &quot;exons&quot;: [], &quot;clinvar&quot;: [], &quot;phenos&quot;: [], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1368.8" cy="574.0" r="14" fill="transparent" class="hit" data-key="186_lower" data-d="{&quot;pos&quot;: 186, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;558-2A&gt;G&quot;, &quot;M&quot;: 2, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 3, &quot;dominant&quot;: &quot;Splicing&quot;, &quot;vtypes&quot;: &quot;Splicing\u00d73&quot;, &quot;coding&quot;: &quot;557+1G&gt;A / 558-2A&gt;G / c.558-2A&gt;G&quot;, &quot;protein&quot;: &quot;&quot;, &quot;exons&quot;: [7], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Mild ID, spoke at 2y; motor delays. Seizures: focal onset, GTC, drop attacks. First signs: 1-2y; language delay. Other: FTT, syncopal episodes, low bone density of maxilla &amp; mandible, aggressive gingivitis, exotropia, myopia, astigmatism, intermittent rashes, easy bruising, lack of balance&quot;, &quot;Severe ID, spoke at 2.5y, walked at 18m. Seizure onset: 2.5m; GTC, myoclonic, absences, tonic; RSE. First signs: 1-2y; language delay. Other: DQ 30 at 15 years of age with cognitive deficits noted as most prominent&quot;, &quot;Focal seizures onset at 3 months; DD/ID (mild cognitive impairment); EEG: focal discharges ; normal MRI ; treated with OXC; seizure-free since 4 months of age.+3&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1375.7" cy="422.0" r="14" fill="transparent" class="hit" data-key="187_upper" data-d="{&quot;pos&quot;: 187, &quot;side&quot;: &quot;upper&quot;, &quot;label&quot;: &quot;L187R&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Missense&quot;, &quot;vtypes&quot;: &quot;Missense\u00d71&quot;, &quot;coding&quot;: &quot;560 T &gt; G&quot;, &quot;protein&quot;: &quot;L187R&quot;, &quot;exons&quot;: [7], &quot;clinvar&quot;: [[&quot;1333706&quot;, &quot;https://www.ncbi.nlm.nih.gov/clinvar/variation/1333706/&quot;]], &quot;phenos&quot;: [&quot;Refractory epilepsy, seizure onset 1y, cannot speak or sit up, severee myoclonic epilepsy dozens-100s per day (worse with fever)&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1375.7" cy="538.0" r="14" fill="transparent" class="hit" data-key="187_lower" data-d="{&quot;pos&quot;: 187, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;L187fs&quot;, &quot;M&quot;: 1, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Splicing&quot;, &quot;vtypes&quot;: &quot;Splicing\u00d71&quot;, &quot;coding&quot;: &quot;558-3T&gt;G&quot;, &quot;protein&quot;: &quot;p.Leu187Asnfs*8&quot;, &quot;exons&quot;: [7], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Tonic-clonic seizures onset 3m; abnormal EEG; normal MRI; profound DD/ID; unsteady upright head; monosyllabic language; treated with PB+LEV+TPM&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1403.5" cy="538.0" r="14" fill="transparent" class="hit" data-key="191_lower" data-d="{&quot;pos&quot;: 191, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;K191fs&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;c.573-574del&quot;, &quot;protein&quot;: &quot;p.Lys191Asnfs*54&quot;, &quot;exons&quot;: [7], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;FBTCS onset at 4 months; DD (mild motor impairment) ; dysmorphic features (polydactyly); EEG: focal discharges ; normal MRI ; treated with LEV and OXC; seizure-free since 4 months of age.+4&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1514.5" cy="538.0" r="14" fill="transparent" class="hit" data-key="207_lower" data-d="{&quot;pos&quot;: 207, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;F207fs&quot;, &quot;M&quot;: 0, &quot;F&quot;: 1, &quot;X&quot;: 0, &quot;total&quot;: 1, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d71&quot;, &quot;coding&quot;: &quot;620_621insC&quot;, &quot;protein&quot;: &quot;F207Ffs*39&quot;, &quot;exons&quot;: [7], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Mild DD, GTC seizures, onset 4m 4-6 per day, decreased seizures over time (every few months), 30s duration, fever after seizure&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+<circle cx="1549.2" cy="556.0" r="14" fill="transparent" class="hit" data-key="212_lower" data-d="{&quot;pos&quot;: 212, &quot;side&quot;: &quot;lower&quot;, &quot;label&quot;: &quot;K212fs&quot;, &quot;M&quot;: 2, &quot;F&quot;: 0, &quot;X&quot;: 0, &quot;total&quot;: 2, &quot;dominant&quot;: &quot;Frameshift&quot;, &quot;vtypes&quot;: &quot;Frameshift\u00d72&quot;, &quot;coding&quot;: &quot;c.634_635del / c.634_635delAA&quot;, &quot;protein&quot;: &quot;p.Lys212Aspfs*33&quot;, &quot;exons&quot;: [7], &quot;clinvar&quot;: [], &quot;phenos&quot;: [&quot;Febrile convulsions at 1y11m, seizures at 3y8m (initially tonic-clonic seizures but focal seizures start 1 month after onset), language delay, MRI: delayed myelination and cerebellar hypoplasia; seizures refractory to multiple AEDs but controlled by Valproate and Lamotrigine&quot;, &quot;ES and focal seizures onset at 23 months (1y11m); DD/ID (mild cognitive and severe motor impairment); EEG: slow background, multifocal and generalized discharges; MRI: widened cavum septum pellucidum ; treated with VPA and LTG; last seizure at 4y2m.+4&quot;], &quot;chrom&quot;: &quot;6&quot;}" style="cursor:pointer;" onmouseenter="showTip(event,this)" onmouseleave="hideTip()"/>
+</g>
+<text x="85" y="814" font-size="9.5" font-weight="700" fill="#444">Domain references</text>
+<a xlink:href="https://doi.org/10.1111/j.1432-1033.1993.tb18404.x" target="_blank"><text x="85" y="820" font-size="8" fill="#4477CC">[1] Boldyreff et al. 1993 — autophosphorylation of CK2β N-terminal domain</text></a>
+<a xlink:href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9957394/" target="_blank"><text x="857" y="820" font-size="8" fill="#4477CC">[2] Di Stazio et al. 2023, Genes (PMC9957394) — KEN box-like motif / IDCS hotspot</text></a>
+<a xlink:href="https://pubmed.ncbi.nlm.nih.gov/10094390/" target="_blank"><text x="85" y="834" font-size="8" fill="#4477CC">[3] Sarno/Leroy et al. 1999 — Acidic / down-regulatory domain aa 55–77</text></a>
+<a xlink:href="https://www.frontiersin.org/journals/pediatrics/articles/10.3389/fped.2025.1583346/full" target="_blank"><text x="857" y="834" font-size="8" fill="#4477CC">[4] Cheng &amp; Luo 2025, Front Pediatr — TopoII interaction domain (newly described 2025)</text></a>
+<a xlink:href="https://pmc.ncbi.nlm.nih.gov/articles/PMC1171375/" target="_blank"><text x="85" y="848" font-size="8" fill="#4477CC">[5] Chantalat et al. 1999, EMBO J (PMC1171375) — Zinc ribbon / β-β dimerisation interface</text></a>
+<a xlink:href="https://pubmed.ncbi.nlm.nih.gov/10094390/" target="_blank"><text x="857" y="848" font-size="8" fill="#4477CC">[6] Leroy et al. 1999, Mol Cell Biochem — CK2α-subunit interaction aa 155–215</text></a>
+<text x="85" y="874" font-size="8" fill="#888" font-style="italic">+ 3 large chromosomal CNV/deletion case(s) span the whole gene and are not plotted as point variants (see legend).</text>
+</svg>
+</div></div>
+
+<div class="legend-wrap">
+  <div class="lg">
+    <div class="lgh">Variant class (shape)</div>
+    <div class="lgi">
+      <svg width="16" height="16"><circle cx="8" cy="8" r="6.5" fill="#1a56db"/></svg> Missense
+    </div>
+    <div class="lgi">
+      <svg width="16" height="16"><polygon points="8,1.5 13.6,11.2 2.4,11.2" fill="#C81E1E"/></svg> Nonsense
+    </div>
+    <div class="lgi">
+      <svg width="16" height="16"><rect x="2.7" y="2.7" width="10.6" height="10.6" fill="#D03801" rx="0.5"/></svg> Frameshift
+    </div>
+    <div class="lgi">
+      <svg width="16" height="16"><polygon points="8,1.5 14.5,8 8,14.5 1.5,8" fill="#6C2BD9"/></svg> Splicing
+    </div>
+    <div class="lgi">
+      <svg width="16" height="16"><polygon points="8,1.5 13.6,4.7 13.6,11.2 8,14.5 2.4,11.2 2.4,4.7" fill="#0694a2"/></svg> In-frame
+    </div>
+    <div class="lgi" style="font-size:9px;color:#999;margin-top:1px">
+      All shapes equal size · stem length = #cases
+    </div>
+  </div>
+  <div class="lg">
+    <div class="lgh">Sex ratio (pie fill)</div>
+    <div class="lgi"><div class="lsw" style="background:#1D4ED8;border-radius:50%"></div> Male</div>
+    <div class="lgi"><div class="lsw" style="background:#DB2777;border-radius:50%"></div> Female</div>
+    <div class="lgi"><div class="lsw" style="background:#9CA3AF;border-radius:50%"></div> Unknown / not reported</div>
+    <div class="lgi" style="font-size:9px;color:#999;margin-top:1px">
+      Pie wedge ∝ proportion per group
+    </div>
+  </div>
+  <div class="lg">
+    <div class="lgh">Functional domains</div>
+    <div class="lgi"><svg width="20" height="14"><defs><pattern id="lg_Auto-P" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(0)"><rect width="6" height="6" fill="#EAB308" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#EAB308" stroke-width="2.4" stroke-opacity="0.85"/></pattern></defs><rect width="20" height="14" fill="url(#lg_Auto-P)" stroke="#d0d0d0" stroke-width="0.5" rx="2"/></svg> Auto-P (aa 1–10)</div><div class="lgi"><svg width="20" height="14"><defs><pattern id="lg_KEN" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(30)"><rect width="6" height="6" fill="#F97316" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#F97316" stroke-width="2.4" stroke-opacity="0.85"/></pattern></defs><rect width="20" height="14" fill="url(#lg_KEN)" stroke="#d0d0d0" stroke-width="0.5" rx="2"/></svg> KEN (aa 25–55)</div><div class="lgi"><svg width="20" height="14"><defs><pattern id="lg_Acidic" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(60)"><rect width="6" height="6" fill="#F59E0B" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#F59E0B" stroke-width="2.4" stroke-opacity="0.85"/></pattern></defs><rect width="20" height="14" fill="url(#lg_Acidic)" stroke="#d0d0d0" stroke-width="0.5" rx="2"/></svg> Acidic (aa 55–77)</div><div class="lgi"><svg width="20" height="14"><defs><pattern id="lg_TopoII" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(90)"><rect width="6" height="6" fill="#10B981" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#10B981" stroke-width="2.4" stroke-opacity="0.85"/></pattern></defs><rect width="20" height="14" fill="url(#lg_TopoII)" stroke="#d0d0d0" stroke-width="0.5" rx="2"/></svg> TopoII* (aa 78–104)</div>
+  </div>
+  <div class="lg">
+    <div class="lgh">&nbsp;</div>
+    <div class="lgi"><svg width="20" height="14"><defs><pattern id="lg_Zn" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(120)"><rect width="6" height="6" fill="#3B82F6" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#3B82F6" stroke-width="2.4" stroke-opacity="0.85"/></pattern></defs><rect width="20" height="14" fill="url(#lg_Zn)" stroke="#d0d0d0" stroke-width="0.5" rx="2"/></svg> Zn (aa 105–146)</div><div class="lgi"><svg width="20" height="14"><defs><pattern id="lg_Dimer" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(150)"><rect width="6" height="6" fill="#8B5CF6" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#8B5CF6" stroke-width="2.4" stroke-opacity="0.85"/></pattern></defs><rect width="20" height="14" fill="url(#lg_Dimer)" stroke="#d0d0d0" stroke-width="0.5" rx="2"/></svg> Dimer (aa 110–205)</div><div class="lgi"><svg width="20" height="14"><defs><pattern id="lg_CK2a" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="6" height="6" fill="#EC4899" fill-opacity="0.18"/><line x1="0" y1="0" x2="0" y2="6" stroke="#EC4899" stroke-width="2.4" stroke-opacity="0.85"/></pattern></defs><rect width="20" height="14" fill="url(#lg_CK2a)" stroke="#d0d0d0" stroke-width="0.5" rx="2"/></svg> CK2α (aa 155–215)</div>
+    <div class="lgi" style="font-size:9px;color:#999">*TopoII: newly described 2025</div>
+  </div>
+  <div class="lg">
+    <div class="lgh">Interactions</div>
+    <div class="lgi" style="font-size:9px;color:#666;line-height:1.4">
+      Hover a variant to spotlight it.<br>
+      All others fade to 12% opacity.<br>
+      Stripes overlap in shared regions:<br>
+      multiple stripe colors = multiple<br>
+      domains span that residue.
+    </div>
+  </div>
+</div>
+<p class="note">Labels: protein 1-letter code · domain refs in legend below SVG · 70 unique sites · 142 total cases including 3 large-CNV deletions</p>
+
+<div id="tooltip"></div>
+<script>
+const COLORS = {"Missense": "#1a56db", "In-frame": "#0694a2", "Nonsense": "#C81E1E", "Frameshift": "#D03801", "Splicing": "#6C2BD9"};
+const SEX_NAMES = { M: 'Male', F: 'Female', X: 'Unknown/NR' };
+
+const hits = Array.from(document.querySelectorAll('.hit'));
+const DATA = hits.map(el => JSON.parse(el.dataset.d));
+
+// Stats row
+const totC = 142;
+const totM = 62;
+const totF = 53;
+const totX = 24;
+const uniq = 70;
+
+document.getElementById('statsRow').innerHTML = [
+  [totC,'Total patients'],
+  [uniq,'Unique sites'],
+  [totM,'Male'],
+  [totF,'Female'],
+  [totX,'Sex unknown'],
+  [25,'Missense / In-frame sites'],
+  [45,'LOF sites'],
+].map(([n,l])=>`<div class="stat"><div class="stat-n">${n}</div><div class="stat-l">${l}</div></div>`).join('');
+
+const TT = document.getElementById('tooltip');
+const allLPs = () => document.querySelectorAll('.lp');
+
+function showTip(evt, el){
+  const key = el.dataset.key;
+  allLPs().forEach(g => {
+    g.style.opacity = g.dataset.key === key ? '1' : '0.12';
+  });
+  const d = JSON.parse(el.dataset.d);
+  const color = COLORS[d.dominant] || '#888';
+  const tot = d.total || 1;
+  const mPct=Math.round(100*d.M/tot), fPct=Math.round(100*d.F/tot), xPct=Math.round(100*d.X/tot);
+  const side = d.side==='upper' ? 'Missense / In-frame' : 'Loss-of-function';
+  const exonStr = d.exons && d.exons.length ? d.exons.join(', ') : '— (intronic / splice)';
+  const cvLinks = (d.clinvar||[]).map(([id,url]) => `<a href="${url}" target="_blank">${id}</a>`).join(', ') || '—';
+  const phenos = (d.phenos||[]).filter(Boolean);
+  const phenoHtml = phenos.length
+    ? phenos.map((p,i) => `<div>${phenos.length>1 ? (i+1)+'.) ' : ''}${p}</div>`).join('')
+    : '<div style="color:#888">— no clinical history reported</div>';
+
+  TT.innerHTML = `
+    <div class="tt-hdr">aa ${d.pos} &nbsp;·&nbsp; ${d.label}</div>
+    <span class="tt-badge" style="background:${color}">${d.dominant} (${side})</span>
+    <div class="tt-sex">
+      <span class="m">♂ M: ${d.M}&nbsp;(${mPct}%)</span>
+      <span class="f">♀ F: ${d.F}&nbsp;(${fPct}%)</span>
+      ${d.X ? `<span class="u">? Unk: ${d.X}&nbsp;(${xPct}%)</span>` : ''}
+    </div>
+    <div class="tt-row"><b>Chromosome:</b> ${d.chrom}</div>
+    <div class="tt-row"><b>AA Position:</b> ${d.pos}</div>
+    <div class="tt-row"><b>#Cases:</b> ${d.total}</div>
+    <div class="tt-row"><b>Variant type:</b> ${d.vtypes}</div>
+    <div class="tt-row"><b>Coding variant:</b> ${d.coding||'—'}</div>
+    <div class="tt-row"><b>Protein variant:</b> ${d.protein||'—'}</div>
+    <div class="tt-row"><b>Exon:</b> ${exonStr}</div>
+    <div class="tt-row tt-cv"><b>ClinVar_ID:</b> ${cvLinks}</div>
+    <div class="tt-pheno"><b style="color:#ddd">Clinical Phenotypes Observed:</b><br>${phenoHtml}</div>
+  `;
+  TT.style.display = 'block';
+  moveTip(evt);
+}
+
+function hideTip(){
+  allLPs().forEach(g => g.style.opacity = '1');
+  TT.style.display = 'none';
+}
+
+function moveTip(evt){
+  const off=15, w=TT.offsetWidth||320, h=TT.offsetHeight||200;
+  let l=evt.clientX+off, t=evt.clientY+off;
+  if(l+w>window.innerWidth-8)  l=evt.clientX-w-off;
+  if(t+h>window.innerHeight-8) t=evt.clientY-h-off;
+  TT.style.left=l+'px'; TT.style.top=t+'px';
+}
+document.addEventListener('mousemove', e => {
+  if(TT.style.display==='block') moveTip(e);
+});
+</script>
+</body>
+</html>
